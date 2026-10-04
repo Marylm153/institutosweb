@@ -1,44 +1,42 @@
-import { useLocation, useNavigate } from 'react-router-dom'
-import logo from '../../Assets/images/logo.png'
+import { Link } from 'react-router-dom'
+import logo from '../../Assets/images/logo-lockup.png'
+import { useScrollTo } from '../hooks/useScrollTo'
 
 export default function SiteFooter() {
-  const navigate = useNavigate()
-  const location = useLocation()
+  const scrollTo = useScrollTo()
 
-  const goTo = (id: string) => {
-    if (location.pathname !== '/') {
-      navigate('/')
-      window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 90)
-    } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    }
+  const go = (id: string) => (event: React.MouseEvent) => {
+    event.preventDefault()
+    scrollTo(id)
   }
 
   return (
-    <footer className="footer">
-      <div className="container footer-main">
-        <div className="footer-brand">
-          <img src={logo} alt="Gobierno Autónomo Departamental de Tarija" />
-          <p>Plataforma informativa de los institutos de formación del departamento.</p>
-        </div>
-        <div className="footer-links">
-          <div>
-            <strong>Explora</strong>
-            <button onClick={() => goTo('institutos')}>Institutos</button>
-            <button onClick={() => goTo('postulante')}>Guía del postulante</button>
-            <button onClick={() => goTo('vitrina')}>Vitrina productiva</button>
+    <footer className="site-footer">
+      <div className="wrap">
+        <div className="footer__grid">
+          <div className="footer__brand">
+            <img src={logo} alt="Gobierno Autónomo Departamental de Tarija" />
+            <p>Plataforma informativa de los institutos de formación del departamento de Tarija.</p>
           </div>
-          <div>
-            <strong>Información</strong>
-            <button onClick={() => goTo('convocatorias')}>Convocatorias</button>
-            <button onClick={() => goTo('ubicaciones')}>Ubicaciones</button>
-            <a href="mailto:instituto2deagosto@gmail.com">Correo del I. T. 2 de Agosto</a>
+          <div className="footer__cols">
+            <div className="footer__col">
+              <strong>Explora</strong>
+              <a href="#institutos" onClick={go('institutos')}>Institutos</a>
+              <a href="#postulante" onClick={go('postulante')}>Guía del postulante</a>
+              <a href="#vitrina" onClick={go('vitrina')}>Vitrina productiva</a>
+            </div>
+            <div className="footer__col">
+              <strong>Información</strong>
+              <a href="#convocatorias" onClick={go('convocatorias')}>Convocatorias</a>
+              <a href="#ubicaciones" onClick={go('ubicaciones')}>Ubicaciones</a>
+              <Link to="/instituto/2-de-agosto">Instituto 2 de Agosto</Link>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="container footer-bottom">
-        <span>© 2026 Gobierno Autónomo Departamental de Tarija</span>
-        <span>Proyecto de código abierto</span>
+        <div className="footer__bottom">
+          <span>© 2026 Gobierno Autónomo Departamental de Tarija</span>
+          <span>Proyecto de código abierto</span>
+        </div>
       </div>
     </footer>
   )

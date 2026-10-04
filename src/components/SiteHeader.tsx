@@ -1,6 +1,8 @@
-import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { ArrowUpRight, Menu, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { ArrowUpRight } from 'lucide-react'
+import logo from '../../Assets/images/logo-lockup.png'
+import { useScrollTo } from '../hooks/useScrollTo'
 
 const links = [
   { id: 'institutos', label: 'Institutos' },
@@ -9,66 +11,67 @@ const links = [
 ]
 
 export default function SiteHeader() {
-  const [open, setOpen] = useState(false)
-  const navigate = useNavigate()
-  const location = useLocation()
+  const scrollTo = useScrollTo()
+  const [hidden, setHidden] = useState(false)
+  const lastY = useRef(0)
+  const ticking = useRef(false)
 
-  const goTo = (id: string) => {
-    setOpen(false)
-    if (location.pathname !== '/') {
-      navigate('/')
-      window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 90)
-    } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 959px)')
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (!mobile.matches || reduceMotion.matches) return
 
-  const goHome = () => {
-    setOpen(false)
-    if (location.pathname !== '/') {
-      navigate('/')
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+    lastY.current = window.scrollY
+    const update = () => {
+      ticking.current = false
+      const y = window.scrollY
+      const delta = y - lastY.current
+      if (y <= 8) setHidden(false)
+      else if (delta > 6 && y > 140) setHidden(true)
+      else if (delta < -6) setHidden(false)
+      lastY.current = y
     }
+    const onScroll = () => {
+      if (!ticking.current) {
+        ticking.current = true
+        window.requestAnimationFrame(update)
+      }
+    }
+    const onFocusIn = () => setHidden(false)
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    document.addEventListener('focusin', onFocusIn)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      document.removeEventListener('focusin', onFocusIn)
+    }
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('header-hidden', hidden)
+    return () => document.documentElement.classList.remove('header-hidden')
+  }, [hidden])
+
+  const go = (id: string) => (event: React.MouseEvent) => {
+    event.preventDefault()
+    scrollTo(id)
   }
 
   return (
-    <>
-      <div className="topline">
-        <div className="container topline-inner">
-          <span>Gobierno Autónomo Departamental de Tarija</span>
-          <span className="topline-message">Educación que transforma territorios</span>
-        </div>
-      </div>
-
-      <header className="header container">
-        <button className="brand" onClick={goHome} aria-label="Volver al inicio">
-          <span className="brand-mark">T</span>
-          <span>
-            <strong>Institutos</strong>
-            <small>Tarija</small>
-          </span>
-        </button>
-        <button
-          className="mobile-menu"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
-          aria-expanded={open}
-          aria-controls="menu-principal"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-        <nav id="menu-principal" className={open ? 'nav nav-open' : 'nav'} aria-label="Navegación principal">
+    <header className={`site-header${hidden ? ' site-header--hidden' : ''}`}>
+      <div className="wrap site-header__inner">
+        <Link className="brand" to="/" aria-label="Ir al inicio">
+          <img className="brand__logo" src={logo} alt="Gobierno Autónomo Departamental de Tarija" />
+        </Link>
+        <nav className="nav" aria-label="Navegación principal">
           {links.map((link) => (
-            <button key={link.id} onClick={() => goTo(link.id)}>
-              {link.label}
-            </button>
+            <a key={link.id} href={`#${link.id}`} onClick={go(link.id)}>{link.label}</a>
           ))}
-          <button className="nav-cta" onClick={() => goTo('convocatorias')}>
-            Convocatorias <ArrowUpRight size={16} />
-          </button>
+          <a className="nav__cta" href="#convocatorias" onClick={go('convocatorias')}>
+            Convocatorias <ArrowUpRight size={15} />
+          </a>
         </nav>
-      </header>
-    </>
+      </div>
+    </header>
   )
 }

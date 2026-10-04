@@ -37,11 +37,33 @@ La salida se genera en `dist/` y puede publicarse en Codeberg Pages. El sitio us
 
 ## Publicación en Codeberg Pages
 
-El archivo `.forgejo/workflows/deploy.yml` compila y publica automáticamente cada cambio enviado a `main`. Después de crear el repositorio público en Codeberg y subir el proyecto, la página estará disponible en:
+El sitio queda disponible en:
 
 `https://USUARIO.codeberg.page/NOMBRE-DEL-REPOSITORIO/`
 
-La publicación usa `git-pages/action`, desarrollado para Codeberg Pages. La capa cartográfica usa Leaflet y OpenStreetMap con la atribución correspondiente.
+Hay dos formas de publicar. El branch de Pages debe contener **solo el sitio compilado** (el contenido de `dist/`), nunca el código fuente.
+
+### Método por webhook (branch `pages`)
+
+Si configuraste el webhook de Forgejo apuntando al branch `pages`, publica el build con:
+
+```powershell
+powershell -File scripts/publish-pages.ps1
+```
+
+El script compila, copia `dist/` al branch `pages` en un worktree temporal y lo empuja a `origin`. Es seguro repetirlo: si no hay cambios, no crea commit.
+
+Si el branch `pages` alguna vez contiene `src/` o un `index.html` que carga `/src/main.tsx`, la página se verá en blanco con un error 404 de `main.tsx`. Eso significa que se publicó el fuente en vez del build.
+
+### Método por Forgejo Actions
+
+El archivo `.forgejo/workflows/deploy.yml` compila y publica automáticamente cada push a `main` usando `codeberg.org/git-pages/action@v2`. Requiere tener Actions habilitado en el repositorio.
+
+### Base de rutas
+
+`vite.config.ts` debe mantener `base: './'` para que los assets funcionen bajo el subdirectorio `/institutosweb/`. Un valor como `'./institutosweb/'` rompe las rutas de los assets.
+
+La capa cartográfica usa Leaflet y OpenStreetMap con la atribución correspondiente.
 
 ## Actualizar contenido
 

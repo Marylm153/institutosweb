@@ -13,7 +13,8 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 
 ## Architecture
 - `src/main.tsx` mounts `<HashRouter>`; `src/App.tsx` defines routes `/` (Home), `/instituto/:slug` (InstitutePage) and `*` (NotFound). It also renders the skip-link and moves focus to `#main-content` on route change.
-- `src/pages/Home.tsx` (cover + catalog + map + vitrina) and `src/pages/InstitutePage.tsx` (single institute detail). Shared `src/components/SiteHeader.tsx` / `SiteFooter.tsx`; `src/hooks/useScrollTo.ts`.
+- `src/pages/Home.tsx` (hero + catalog + map + guide + vitrina) and `src/pages/InstitutePage.tsx` (single institute detail). Shared `src/components/SiteHeader.tsx` / `SiteFooter.tsx` / `MobileNav.tsx` (fixed bottom bar on mobile); `src/hooks/useScrollTo.ts`.
+- Design system lives in `src/styles.css` (`:root` tokens). Font is `Archivo Variable`, self-hosted via `@fontsource-variable/archivo` imported in `main.tsx`.
 - Data lives in `src/data/`:
   - `institutes.ts` — summary list shown on the cover (must include `slug`, `hasDetail`).
   - `institutes/<slug>.ts` — full detail for one institute.
@@ -26,11 +27,14 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 - `vite.config.ts` sets `base: './'` on purpose for the Codeberg Pages repo subpath. Do NOT change it to `/`.
 - Routing must stay `HashRouter` (all pages are static, no server rewrites). Do not switch to `BrowserRouter`.
 - Images are imported with relative paths / glob from `src`; the glob base is `../../Assets/...` (from `src/data/`). Assets are hashed into `dist/assets` — do NOT move them to `public/`.
-- `Assets/colors/colors.txt` is a reference SCSS map NOT read by code. Live palette variables (`--red`, `--deep-red`) are in `src/styles.css`.
+- `Assets/colors/colors.txt` is a reference SCSS map NOT read by code. Live palette variables (`--red`, `--ochre`, `--ink`, `--line`, etc.) are in `src/styles.css`.
+- The official logos (`Assets/images/logo.png`, `logo gobernacion.png`) are white artwork on transparent. `Assets/images/logo-lockup.png` is the trimmed white lockup used on the red header chip and the dark footer; do not place the white logo on a light surface.
 - Leaflet uses public OpenStreetMap tiles; keep the attribution.
 - Environment is Windows + PowerShell; quote paths that contain spaces.
 
 ## Deploy (Codeberg Pages)
-- `.forgejo/workflows/deploy.yml` runs on push to `main`: `npm ci` → `npm run build` → copy to `_site/` → publish via `codeberg.org/git-pages/action@v2`.
-- The publish URL embeds `forge.repository_name`; it must match the real Codeberg repo name.
+- Live at `https://yemih.codeberg.page/institutosweb/`; the `pages` branch is served as-is by the Codeberg Pages webhook. That branch must contain ONLY the built site (`dist/`), never the source.
+- Publish/update with `powershell -File scripts/publish-pages.ps1` (builds, copies `dist/` to a `pages` worktree, pushes). Idempotent.
+- `.forgejo/workflows/deploy.yml` is the alternative CI method: on push to `main` it builds to `_site/` and publishes via `codeberg.org/git-pages/action@v2` (requires Forgejo Actions enabled).
+- `vite.config.ts` `base` MUST stay `'./'` for the `/institutosweb/` subpath; `'./institutosweb/'` breaks asset URLs.
 - `dist/`, `node_modules/` are gitignored; `_site/` is a CI-only artifact.

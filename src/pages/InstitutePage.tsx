@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
   ArrowLeft,
@@ -6,32 +6,41 @@ import {
   ArrowUpRight,
   Award,
   BookOpen,
-  Building2,
   Clock,
   GraduationCap,
   Mail,
   MapPin,
   MessageCircle,
-  Sparkles,
+  Navigation,
+  Phone,
   Target,
-  Users,
 } from 'lucide-react'
 import portada from '../../Assets/images/portada.jpg'
 import { galleryFor, getInstitute, getInstituteDetail } from '../data'
 import type { Carrera } from '../data'
 
+const sectionIds = ['resumen', 'carreras', 'sedes', 'galeria', 'contacto']
+const sectionLabels: Record<string, string> = {
+  resumen: 'Resumen',
+  carreras: 'Carreras',
+  sedes: 'Sedes',
+  galeria: 'Galería',
+  contacto: 'Contacto',
+}
+
 export default function InstitutePage() {
   const { slug } = useParams<{ slug: string }>()
   const institute = getInstitute(slug)
   const detail = getInstituteDetail(slug)
+  const active = useActiveSection(sectionIds)
 
   if (!institute) {
     return (
-      <main id="main-content" tabIndex={-1} className="detail-main">
-        <div className="container detail-missing">
+      <main id="main-content" tabIndex={-1}>
+        <div className="wrap notfound">
           <h1>No encontramos este instituto</h1>
           <p>Es posible que el enlace haya cambiado. Vuelve al inicio para ver toda la oferta.</p>
-          <Link className="solid-button" to="/">Volver al inicio <ArrowRight size={16} /></Link>
+          <Link className="btn btn--primary" to="/">Volver al inicio <ArrowRight size={16} /></Link>
         </div>
       </main>
     )
@@ -39,19 +48,20 @@ export default function InstitutePage() {
 
   if (!detail) {
     return (
-      <main id="main-content" tabIndex={-1} className="detail-main">
-        <section className="detail-hero detail-hero-placeholder">
-          <div className="container">
-            <Link className="back-link" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
-            <span className="detail-type">{institute.type}</span>
-            <h1>{institute.name}</h1>
-            <p className="detail-location"><MapPin size={16} /> {institute.location} · {institute.province}</p>
-            <p className="detail-lead">{institute.description}</p>
-            <div className="pending-box">
-              <strong>Ficha en preparación</strong>
+      <main id="main-content" tabIndex={-1} className="detail">
+        <section className="detail__hero" style={{ background: 'linear-gradient(140deg,#7e1119,#b32229)' }}>
+          <div className="detail__scrim" />
+          <div className="wrap detail__inner">
+            <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
+            <span className="kicker">{institute.type}</span>
+            <h1 className="detail__title">{institute.name}</h1>
+            <p className="detail__place"><MapPin size={16} /> {institute.location} · {institute.province}</p>
+            <p className="detail__lede">{institute.description}</p>
+            <div className="panel" style={{ marginTop: 22, maxWidth: 560 }}>
+              <h3>Ficha en preparación</h3>
               <p>Todavía no recibimos la información de este instituto. Estamos coordinando con sus autoridades para publicar aquí sus carreras, sedes y datos de contacto.</p>
             </div>
-            <Link className="white-button" to="/">Volver a todos los institutos <ArrowUpRight size={17} /></Link>
+            <Link className="btn btn--light" to="/" style={{ marginTop: 20 }}>Volver a todos los institutos <ArrowUpRight size={16} /></Link>
           </div>
         </section>
       </main>
@@ -59,87 +69,92 @@ export default function InstitutePage() {
   }
 
   const cover = galleryFor(detail.slug)[0]?.src ?? portada
+  const sede = detail.sedes[0]
+
+  const goToSection = (id: string) => (event: React.MouseEvent) => {
+    event.preventDefault()
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   return (
-    <main id="main-content" tabIndex={-1} className="detail-main">
-      <section className="detail-hero" style={{ backgroundImage: `url(${cover})` }}>
-        <div className="detail-hero-wash" />
-        <div className="container detail-hero-content">
-          <Link className="back-link" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
-          <span className="detail-type">{detail.type} · {detail.province}</span>
-          <h1>{detail.officialName}</h1>
-          <p className="detail-location"><MapPin size={16} /> {detail.municipality} · {detail.province}</p>
-          <p className="detail-lead">{detail.summary}</p>
-          <div className="detail-actions">
-            <a className="white-button" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer">
-              <MessageCircle size={17} /> Escribir por WhatsApp
-            </a>
-            <a className="ghost-button" href={`mailto:${detail.contact.email}`}>
-              <Mail size={17} /> {detail.contact.email}
-            </a>
+    <main id="main-content" tabIndex={-1} className="detail">
+      <section className="detail__hero" style={{ backgroundImage: `url(${cover})` }}>
+        <div className="detail__scrim" />
+        <div className="wrap detail__inner">
+          <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
+          <span className="kicker">{detail.type} · {detail.province}</span>
+          <h1 className="detail__title">{detail.officialName}</h1>
+          <p className="detail__place"><MapPin size={16} /> {detail.municipality} · {detail.province}</p>
+          <p className="detail__lede">{detail.summary}</p>
+          <div className="detail__actions">
+            <a className="btn btn--light" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> Escribir por WhatsApp</a>
+            <a className="btn btn--ghost" href={`mailto:${detail.contact.email}`} style={{ color: '#fff', borderColor: 'rgba(255,255,255,.45)' }}><Mail size={17} /> Correo</a>
           </div>
         </div>
       </section>
 
-      <section className="detail-highlights">
-        <div className="container detail-highlight-grid">
-          <Highlight icon={<GraduationCap />} label="Nivel" value={detail.carreras[0]?.level ?? 'Técnico Superior'} />
-          <Highlight icon={<Building2 />} label="Sedes" value={`${detail.sedes.length} ${detail.sedes.length === 1 ? 'sede' : 'sedes'}`} />
-          <Highlight icon={<Users />} label="Estudiantes" value={detail.studentCount ?? '—'} />
-          <Highlight icon={<Award />} label="Fundado" value={detail.founded} />
+      <div className="facts-wrap" style={{ background: 'var(--bg)' }}>
+        <div className="wrap">
+          <div className="facts">
+            <Fact label="Nivel" value={detail.carreras[0]?.level ?? 'Técnico Superior'} />
+            <Fact label="Sedes" value={`${detail.sedes.length} ${detail.sedes.length === 1 ? 'sede' : 'sedes'}`} />
+            <Fact label="Estudiantes" value={detail.studentCount ?? '—'} />
+            <Fact label="Fundado" value={detail.founded} />
+          </div>
         </div>
-      </section>
+      </div>
 
-      <section className="container detail-block">
-        <div className="detail-two-col">
+      <nav className="subnav" aria-label="Secciones del instituto">
+        {sectionIds.map((id) => (
+          <a key={id} href={`#${id}`} className={active === id ? 'is-active' : undefined} onClick={goToSection(id)}>{sectionLabels[id]}</a>
+        ))}
+      </nav>
+
+      <section className="wrap section" id="resumen">
+        <h2>Resumen</h2>
+        <div className="panels" style={{ marginTop: 20 }}>
           <article className="panel">
-            <h2>Misión</h2>
+            <h3>Misión</h3>
             <p>{detail.mission}</p>
           </article>
           <article className="panel">
-            <h2>Visión</h2>
+            <h3>Visión</h3>
             <p>{detail.vision}</p>
           </article>
         </div>
         {detail.authority && (
-          <div className="authority">
-            <Award size={18} />
-            <span><strong>{detail.authorityRole}:</strong> {detail.authority}</span>
-          </div>
+          <p className="authority"><Award size={17} /> <span><strong>{detail.authorityRole}:</strong> {detail.authority}</span></p>
         )}
       </section>
 
-      <section className="detail-block detail-block-tint">
-        <div className="container">
-          <div className="section-heading compact">
-            <div><h2>Conoce nuestras <em>carreras.</em></h2></div>
-            <p className="section-description">Formación Técnico Superior con pertinencia productiva y título del Ministerio de Educación.</p>
+      <section className="divider" style={{ background: 'var(--surface)' }}>
+        <div className="wrap section" id="carreras">
+          <div className="section-head">
+            <h2>Conoce nuestras <em>carreras.</em></h2>
+            <p className="lede">Formación Técnico Superior con pertinencia productiva y título del Ministerio de Educación.</p>
           </div>
           <CareerSection slug={detail.slug} carreras={detail.carreras} />
         </div>
       </section>
 
-      <section className="container detail-block">
-        <div className="section-heading compact">
-          <div><h2>Nuestras <em>sedes.</em></h2></div>
-          <p className="section-description">Visítanos o escríbenos para recibir orientación sobre la carrera que te interesa.</p>
+      <section className="wrap section" id="sedes">
+        <div className="section-head">
+          <h2>Nuestras <em>sedes.</em></h2>
+          <p className="lede">Visítanos o escríbenos para recibir orientación sobre la carrera que te interesa.</p>
         </div>
-        <div className="sede-grid">
-          {detail.sedes.map((sede) => (
-            <article className="sede-card" key={sede.name}>
-              <div className="sede-card-top">
-                <MapPin size={18} />
-                <h3>{sede.name}</h3>
-              </div>
-              <p className="sede-address">{sede.address}</p>
-              {sede.reference && <p className="sede-reference">Referencia: {sede.reference}</p>}
-              <ul className="sede-meta">
-                {sede.schedule && <li><Clock size={15} /> {sede.schedule}</li>}
-                {sede.whatsapp && <li><MessageCircle size={15} /> {sede.whatsapp}</li>}
+        <div className="sedes">
+          {detail.sedes.map((item) => (
+            <article className="sede" key={item.name}>
+              <div className="sede__head"><MapPin size={18} /><h3>{item.name}</h3></div>
+              <p className="sede__address">{item.address}</p>
+              {item.reference && <p className="sede__ref">Referencia: {item.reference}</p>}
+              <ul className="sede__meta">
+                {item.schedule && <li><Clock size={15} /> {item.schedule}</li>}
+                {item.whatsapp && <li><MessageCircle size={15} /> {item.whatsapp}</li>}
               </ul>
-              <div className="sede-actions">
-                {sede.mapUrl && <a className="text-link" href={sede.mapUrl} target="_blank" rel="noreferrer">Ver en el mapa <ArrowUpRight size={15} /></a>}
-                {sede.whatsapp && <a className="text-link" href={`https://wa.me/591${sede.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp <ArrowUpRight size={15} /></a>}
+              <div className="sede__links">
+                {item.mapUrl && <a className="link-arrow" href={item.mapUrl} target="_blank" rel="noreferrer">Ver en el mapa <ArrowUpRight size={14} /></a>}
+                {item.whatsapp && <a className="link-arrow" href={`https://wa.me/591${item.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp <ArrowUpRight size={14} /></a>}
               </div>
             </article>
           ))}
@@ -148,16 +163,16 @@ export default function InstitutePage() {
 
       <Gallery slug={detail.slug} carreras={detail.carreras} />
 
-      <section className="detail-block detail-block-tint">
-        <div className="container detail-two-col">
-          <article className="panel">
+      <section className="divider" style={{ background: 'var(--surface)' }}>
+        <div className="wrap section">
+          <div className="section-head">
             <h2>Lo que produce <em>nuestro instituto.</em></h2>
-            <p>Productos y servicios generados en las actividades académicas y productivas, sujetos a la producción efectiva y disponibilidad institucional.</p>
-          </article>
-          <div className="product-mini-grid">
+            <p className="lede">Productos y servicios generados en las actividades académicas y productivas, sujetos a disponibilidad institucional.</p>
+          </div>
+          <div className="products-mini">
             {detail.products.map((product) => (
               <div className="product-mini" key={product.title}>
-                <Sparkles size={17} />
+                <Award size={16} />
                 <strong>{product.title}</strong>
                 <span>{product.description}</span>
               </div>
@@ -166,31 +181,27 @@ export default function InstitutePage() {
         </div>
       </section>
 
-      <section className="container detail-block">
-        <div className="detail-two-col wide-left">
-          <article>
-            <h2>Una institución que <em>crece.</em></h2>
-            <div className="history-list">
-              {detail.history.map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-            </div>
-          </article>
+      <section className="wrap section">
+        <div className="section-head">
+          <h2>Una institución que <em>crece.</em></h2>
+        </div>
+        <div className="panels" style={{ gap: 20 }}>
+          <div className="history">
+            {detail.history.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+          </div>
           <aside className="achievements">
             <h3>Logros institucionales</h3>
-            <ul>
-              {detail.achievements.map((item) => <li key={item}>{item}</li>)}
-            </ul>
+            <ul>{detail.achievements.map((item) => <li key={item}>{item}</li>)}</ul>
           </aside>
         </div>
       </section>
 
-      <section className="detail-block detail-block-tint">
-        <div className="container faq-layout">
-          <div>
+      <section className="divider" style={{ background: 'var(--surface)' }}>
+        <div className="wrap section">
+          <div className="section-head">
             <h2>Dudas de <em>postulantes.</em></h2>
           </div>
-          <div className="faq-list">
+          <div className="faq">
             {detail.faqs.map((faq) => (
               <details key={faq.question}>
                 <summary><BookOpen size={16} /> {faq.question}</summary>
@@ -201,34 +212,61 @@ export default function InstitutePage() {
         </div>
       </section>
 
-      <section className="detail-contact">
-        <div className="container detail-contact-inner">
+      <section className="wrap section" id="contacto">
+        <div className="section-head">
+          <h2>¿Listo para <em>postular?</em></h2>
+          <p className="lede">Escríbenos para recibir orientación sobre requisitos, inscripciones y visitas.</p>
+        </div>
+        <div className="contact">
           <div>
-            <h2>¿Listo para <em>postular?</em></h2>
-            <p className="detail-contact-note">Escríbenos para recibir orientación sobre requisitos, inscripciones y visitas.</p>
+            <h2 style={{ fontSize: '1.4rem' }}>Contacto institucional</h2>
+            <p className="contact__note">Atención de lunes a viernes.</p>
           </div>
-          <div className="detail-contact-card">
-            <a href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> WhatsApp {detail.contact.whatsapp}</a>
-            <a href={`mailto:${detail.contact.email}`}><Mail size={17} /> {detail.contact.email}</a>
+          <div className="contact__card">
+            <a className="contact__row" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> WhatsApp {detail.contact.whatsapp}</a>
+            <a className="contact__row" href={`mailto:${detail.contact.email}`}><Mail size={17} /> {detail.contact.email}</a>
             {detail.contact.facebook && (
-              <a href={`https://www.facebook.com/search/top?q=${encodeURIComponent(detail.contact.facebook)}`} target="_blank" rel="noreferrer">
+              <a className="contact__row" href={`https://www.facebook.com/search/top?q=${encodeURIComponent(detail.contact.facebook)}`} target="_blank" rel="noreferrer">
                 <Target size={17} /> {detail.contact.facebook}
               </a>
             )}
-            {detail.contact.hours && <span><Clock size={17} /> Atención: {detail.contact.hours}</span>}
+            {detail.contact.hours && <span className="contact__row"><Clock size={17} /> {detail.contact.hours}</span>}
           </div>
         </div>
       </section>
+
+      <div className="actionbar">
+        <a className="btn btn--primary actionbar__primary" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> WhatsApp</a>
+        <a className="actionbar__icon" href={`tel:+591${detail.contact.whatsapp}`} aria-label="Llamar por teléfono"><Phone size={19} /></a>
+        {sede?.mapUrl && <a className="actionbar__icon" href={sede.mapUrl} target="_blank" rel="noreferrer" aria-label="Cómo llegar"><Navigation size={19} /></a>}
+      </div>
     </main>
   )
 }
 
-function Highlight({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = useState(ids[0])
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+      if (visible[0]) setActive(visible[0].target.id)
+    }, { rootMargin: '-80px 0px -55% 0px' })
+    ids.forEach((id) => {
+      const element = document.getElementById(id)
+      if (element) observer.observe(element)
+    })
+    return () => observer.disconnect()
+  }, [ids])
+  return active
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
   return (
-    <div className="highlight">
-      <span className="highlight-icon">{icon}</span>
-      <span className="highlight-label">{label}</span>
-      <strong>{value}</strong>
+    <div className="fact">
+      <span className="fact__label">{label}</span>
+      <span className="fact__value">{value}</span>
     </div>
   )
 }
@@ -239,7 +277,7 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
   const carrera = carreras[active]
   const images = galleryFor(slug, carrera.mediaKey).slice(0, 3)
 
-  const onTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+  const onKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
     const last = carreras.length - 1
     let next = index
     if (event.key === 'ArrowRight') next = index === last ? 0 : index + 1
@@ -253,8 +291,8 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
   }
 
   return (
-    <div className="career-detail">
-      <div className="career-tabbar" role="tablist" aria-label="Carreras del instituto">
+    <div>
+      <div className="segmented" role="tablist" aria-label="Carreras del instituto">
         {carreras.map((item, index) => (
           <button
             key={item.name}
@@ -264,22 +302,20 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
             aria-selected={index === active}
             aria-controls={`panel-${slug}-${index}`}
             tabIndex={index === active ? 0 : -1}
-            className={index === active ? 'career-tab active' : 'career-tab'}
+            className={index === active ? 'is-active' : undefined}
             onClick={() => setActive(index)}
-            onKeyDown={(event) => onTabKeyDown(event, index)}
+            onKeyDown={(event) => onKeyDown(event, index)}
           >
             {item.name}
           </button>
         ))}
       </div>
 
-      <div className="career-panel" role="tabpanel" id={`panel-${slug}-${active}`} aria-labelledby={`tab-${slug}-${active}`} tabIndex={0}>
-        <div className="career-panel-head">
-          <div>
-            <h3>{carrera.name}</h3>
-            <p className="career-sede"><MapPin size={14} /> {carrera.sede}</p>
-          </div>
-          <div className="career-facts">
+      <div className="career" role="tabpanel" id={`panel-${slug}-${active}`} aria-labelledby={`tab-${slug}-${active}`} tabIndex={0}>
+        <div className="career__head">
+          <h3>{carrera.name}</h3>
+          <span className="career__sede"><MapPin size={14} /> {carrera.sede}</span>
+          <div className="career__facts">
             <span>{carrera.level}</span>
             <span>{carrera.duration}</span>
             <span>{carrera.regime}</span>
@@ -287,70 +323,68 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
           </div>
         </div>
 
-        <div className="career-columns">
+        <div className="career__cols">
           <div>
             <h4>Perfil profesional</h4>
-            <ul>{carrera.profile.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul className="dotlist">{carrera.profile.map((item) => <li key={item}>{item}</li>)}</ul>
           </div>
           <div>
             <h4>Campo laboral</h4>
-            <ul>{carrera.workField.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul className="dotlist">{carrera.workField.map((item) => <li key={item}>{item}</li>)}</ul>
           </div>
           <div>
             <h4>Infraestructura y práctica</h4>
-            <ul>{carrera.infrastructure.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul className="dotlist">{carrera.infrastructure.map((item) => <li key={item}>{item}</li>)}</ul>
           </div>
         </div>
 
-        <div className="career-curriculum">
+        <div className="curriculum">
           <h4>Malla curricular</h4>
           {carrera.curriculum ? (
-            <div className="curriculum-grid">
+            <div className="curriculum__grid">
               {carrera.curriculum.map((year) => (
-                <div className="curriculum-year" key={year.year}>
+                <div className="curriculum__year" key={year.year}>
                   <strong>{year.year}</strong>
-                  <ul>{year.subjects.map((subject) => <li key={subject}>{subject}</li>)}</ul>
+                  <ul className="dotlist">{year.subjects.map((subject) => <li key={subject}>{subject}</li>)}</ul>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="pending-inline">{carrera.curriculumNote ?? 'Malla curricular pendiente de publicación.'}</p>
+            <p className="note-inline">{carrera.curriculumNote ?? 'Malla curricular pendiente de publicación.'}</p>
           )}
         </div>
 
-        <p className="career-degree"><GraduationCap size={15} /> {carrera.degree}</p>
-      </div>
+        <p className="career__degree"><GraduationCap size={15} /> {carrera.degree}</p>
 
-      {images.length > 0 && (
-        <div className="career-gallery">
-          {images.map((image) => <img key={image.src} src={image.src} alt={image.alt} loading="lazy" />)}
-        </div>
-      )}
+        {images.length > 0 && (
+          <div className="career__gallery">
+            {images.map((image) => <img key={image.src} src={image.src} alt={image.alt} loading="lazy" />)}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
 function Gallery({ slug, carreras }: { slug: string; carreras: Carrera[] }) {
-  const [filter, setFilter] = useState<string>('todas')
+  const [filter, setFilter] = useState('todas')
   const images = filter === 'todas' ? galleryFor(slug) : galleryFor(slug, filter)
 
   return (
-    <section className="detail-block">
-      <div className="container">
-        <div className="section-heading compact">
-          <div><h2>Así se aprende <em>en el instituto.</em></h2></div>
-          <p className="section-description">Prácticas de campo, laboratorio y actividades productivas de nuestros estudiantes.</p>
+    <section className="divider">
+      <div className="wrap section" id="galeria">
+        <div className="section-head">
+          <h2>Así se aprende <em>en el instituto.</em></h2>
+          <p className="lede">Prácticas de campo, laboratorio y actividades productivas de nuestros estudiantes.</p>
         </div>
-        <div className="gallery-filters" role="group" aria-label="Filtrar la galería por carrera">
-          <button className={filter === 'todas' ? 'active' : ''} aria-pressed={filter === 'todas'} onClick={() => setFilter('todas')}>Todas</button>
+        <div className="gallery__filters" role="group" aria-label="Filtrar la galería por carrera">
+          <button className={`chip${filter === 'todas' ? ' is-active' : ''}`} aria-pressed={filter === 'todas'} onClick={() => setFilter('todas')}>Todas</button>
           {carreras.map((carrera) => (
-            <button key={carrera.mediaKey} className={filter === carrera.mediaKey ? 'active' : ''} aria-pressed={filter === carrera.mediaKey} onClick={() => setFilter(carrera.mediaKey)}>{carrera.name}</button>
+            <button key={carrera.mediaKey} className={`chip${filter === carrera.mediaKey ? ' is-active' : ''}`} aria-pressed={filter === carrera.mediaKey} onClick={() => setFilter(carrera.mediaKey)}>{carrera.name}</button>
           ))}
         </div>
-        <div className="gallery-grid">
-          {images.map((image, index) => (
-            <img key={image.src} src={image.src} alt={image.alt} loading="lazy" className={index % 7 === 0 ? 'tall' : ''} />
-          ))}
+        <div className="gallery__grid">
+          {images.map((image) => <img key={image.src} src={image.src} alt={image.alt} loading="lazy" />)}
         </div>
       </div>
     </section>
