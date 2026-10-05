@@ -233,6 +233,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .map__copy .btn { margin-top: 16px; }
 .map__frame { position: relative; z-index: 0; isolation: isolate; height: 320px; border-radius: var(--r-md); overflow: hidden; background: var(--surface-2); }
 .map__frame .leaflet-container { z-index: 0; }
+.map-marker { background: none; border: 0; }
 .map__frame .leaflet-control-attribution { font-size: 9px; }
 .map__list { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 4px 16px; }
 .map__list summary { cursor: pointer; padding: 14px 0; font-weight: 600; font-size: 14px; }
@@ -310,8 +311,9 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .fact__label { display: block; color: var(--ink-3); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; }
 .fact__value { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
 
-.subnav { position: sticky; top: var(--header-h); z-index: 40; background: rgba(255, 255, 255, .94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.subnav { position: sticky; top: var(--header-h); z-index: 40; background: rgba(255, 255, 255, .94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
 .subnav::-webkit-scrollbar { display: none; }
+.subnav__inner { display: flex; gap: 2px; width: max-content; margin-inline: auto; padding-inline: var(--gutter); }
 .subnav a { flex: 0 0 auto; padding: 15px 13px; font-size: 13.5px; color: var(--ink-2); text-decoration: none; border-bottom: 2px solid transparent; }
 .subnav a:hover { color: var(--ink); }
 

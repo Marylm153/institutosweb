@@ -1,5 +1,4 @@
 import type { InstituteDetail } from '../types'
-import logo from '../../../Assets/images/uriondo/logo.jpg'
 
 export const uriondo: InstituteDetail = {
   slug: 'uriondo',
@@ -8,7 +7,6 @@ export const uriondo: InstituteDetail = {
   municipality: 'Uriondo',
   province: 'Avilés',
   founded: '2015',
-  logo,
   mission:
     'Promover una formación Técnica y Tecnológica profesional integral, altamente competitiva, mediante la implementación y ejecución de políticas y estrategias inclusivas, equitativas y científicas de calidad, articulando las potencialidades y oportunidades productivas de la región para contribuir al desarrollo del Municipio.',
   vision:

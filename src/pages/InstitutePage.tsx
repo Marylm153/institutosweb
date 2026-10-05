@@ -112,9 +112,11 @@ export default function InstitutePage() {
       </div>
 
       <nav className="subnav" aria-label="Secciones del instituto">
-        {sectionIds.map((id) => (
-          <a key={id} href={`#${id}`} className={active === id ? 'is-active' : undefined} onClick={goToSection(id)}>{sectionLabels[id]}</a>
-        ))}
+        <div className="subnav__inner">
+          {sectionIds.map((id) => (
+            <a key={id} href={`#${id}`} className={active === id ? 'is-active' : undefined} onClick={goToSection(id)}>{sectionLabels[id]}</a>
+          ))}
+        </div>
       </nav>
 
       <section className="wrap section" id="resumen">

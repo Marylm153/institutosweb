@@ -307,17 +307,18 @@ function TarijaMap() {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map)
 
-    const points: { name: string; position: L.LatLngExpression; slug: string }[] = institutes
+    const points: { name: string; position: L.LatLngExpression; slug: string; art: boolean }[] = institutes
       .filter((institute) => institute.coordinates)
       .map((institute) => ({
         name: institute.name,
         position: [institute.coordinates!.lat, institute.coordinates!.lng] as L.LatLngExpression,
         slug: institute.slug,
+        art: institute.type === 'Artístico',
       }))
 
     institutes.forEach((institute) => {
       getInstituteDetail(institute.slug)?.sedes.forEach((sede) => {
-        points.push({ name: `${institute.name} – ${sede.name}`, position: [sede.coordinates.lat, sede.coordinates.lng], slug: institute.slug })
+        points.push({ name: `${institute.name} – ${sede.name}`, position: [sede.coordinates.lat, sede.coordinates.lng], slug: institute.slug, art: institute.type === 'Artístico' })
       })
     })
 
@@ -336,8 +337,8 @@ function TarijaMap() {
       }
     })
 
-    spread.forEach(({ name, position, slug }) => {
-      L.marker(position)
+    spread.forEach(({ name, position, slug, art }) => {
+      L.marker(position, { icon: markerIcon(art), title: name })
         .addTo(map)
         .bindPopup(`<strong>${name}</strong><br><a href="#/instituto/${slug}">Conocer el instituto</a>`)
     })
@@ -348,4 +349,16 @@ function TarijaMap() {
   }, [])
 
   return <div className="map__frame" ref={mapElement} role="region" aria-label="Mapa de la presencia de institutos en Tarija" aria-describedby="map-sedes-list" tabIndex={0} />
+}
+
+function markerIcon(art: boolean) {
+  const color = art ? '#8a5a2b' : '#9f1720'
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="34" viewBox="0 0 26 34"><path d="M13 0C5.82 0 0 5.82 0 13c0 9.9 13 21 13 21s13-11.1 13-21C26 5.82 20.18 0 13 0z" fill="${color}"/><circle cx="13" cy="13" r="4.6" fill="#fff"/></svg>`
+  return L.divIcon({
+    className: 'map-marker',
+    html: svg,
+    iconSize: [26, 34],
+    iconAnchor: [13, 34],
+    popupAnchor: [0, -30],
+  })
 }
