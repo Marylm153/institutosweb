@@ -297,9 +297,10 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .detail__hero { position: relative; min-height: 480px; min-height: 62svh; display: flex; align-items: flex-end; color: #fff; background-size: cover; background-position: center; }
 .detail__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23, 23, 26, .2) 0%, rgba(23, 23, 26, .55) 45%, rgba(23, 23, 26, .92) 100%); }
 .detail__inner { position: relative; width: 100%; padding-block: 26px 34px; }
-.back { display: inline-flex; align-items: center; gap: 6px; color: rgba(255, 255, 255, .82); font-size: 13px; text-decoration: none; margin-bottom: 18px; }
+.detail__top { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; margin-bottom: 16px; }
+.back { display: inline-flex; align-items: center; gap: 6px; color: rgba(255, 255, 255, .82); font-size: 13px; text-decoration: none; }
 .back:hover { color: #fff; }
-.kicker { display: inline-flex; align-items: center; gap: 7px; background: rgba(23, 23, 26, .5); border: 1px solid rgba(255, 255, 255, .22); border-radius: var(--r-full); padding: 6px 13px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px; }
+.kicker { display: inline-flex; align-items: center; gap: 7px; background: rgba(23, 23, 26, .5); border: 1px solid rgba(255, 255, 255, .22); border-radius: var(--r-full); padding: 6px 13px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
 .detail__title { font-size: clamp(2rem, 8.5vw, 3.6rem); max-width: 20ch; }
 .detail__place { display: flex; align-items: center; gap: 7px; color: rgba(255, 255, 255, .85); font-size: 13.5px; margin-top: 12px; }
 .detail__lede { color: rgba(255, 255, 255, .9); font-size: 15px; max-width: 60ch; margin-top: 14px; }

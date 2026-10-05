@@ -52,8 +52,10 @@ export default function InstitutePage() {
         <section className="detail__hero" style={{ background: 'linear-gradient(140deg,#7e1119,#b32229)' }}>
           <div className="detail__scrim" />
           <div className="wrap detail__inner">
-            <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
-            <span className="kicker">{institute.type}</span>
+            <div className="detail__top">
+              <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
+              <span className="kicker">{institute.type}</span>
+            </div>
             <h1 className="detail__title">{institute.name}</h1>
             <p className="detail__place"><MapPin size={16} /> {institute.location} · {institute.province}</p>
             <p className="detail__lede">{institute.description}</p>
@@ -81,11 +83,13 @@ export default function InstitutePage() {
       <section className="detail__hero" style={{ backgroundImage: `url(${cover})` }}>
         <div className="detail__scrim" />
         <div className="wrap detail__inner">
-          <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
+          <div className="detail__top">
+            <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
+            <span className="kicker">{detail.type} · {detail.province}</span>
+          </div>
           {detail.logo && (
             <span className="detail__crest"><img src={detail.logo} alt={`Escudo de ${detail.officialName}`} /></span>
           )}
-          <span className="kicker">{detail.type} · {detail.province}</span>
           <h1 className="detail__title">{detail.officialName}</h1>
           <p className="detail__place"><MapPin size={16} /> {detail.municipality} · {detail.province}</p>
           <p className="detail__lede">{detail.summary}</p>
