@@ -70,7 +70,8 @@ La capa cartográfica usa Leaflet y OpenStreetMap con la atribución correspondi
 Además de Codeberg, el repositorio se espeja a GitHub y publica la demo con GitHub Actions.
 
 - Repositorio: `https://github.com/Marylm153/institutosweb`
-- Demo: `https://marylm153.github.io/institutosweb/`
+- Demo en GitHub Pages: `https://marylm153.github.io/institutosweb/`
+- Demo en Render: `https://institutosweb.onrender.com/`
 
 El workflow `.github/workflows/deploy.yml` compila (`npm ci && npm run build`) y publica `dist/` en cada push a `main`. Para publicar en ambos remotos:
 
