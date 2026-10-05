@@ -12,7 +12,14 @@ export type Sede = {
   mapUrl?: string
 }
 
-export type CurriculumYear = { year: string; subjects: string[] }
+export type CurriculumSubject = {
+  code: string
+  name: string
+  hours: number
+  prerequisite?: string
+}
+
+export type CurriculumYear = { year: string; subjects: CurriculumSubject[] }
 
 export type Carrera = {
   name: string
@@ -28,12 +35,14 @@ export type Carrera = {
   infrastructure: string[]
   curriculum: CurriculumYear[] | null
   curriculumNote?: string
+  curriculumImage?: string
 }
 
 export type Faq = { question: string; answer: string }
 
 export type InstituteContact = {
   whatsapp?: string
+  phones?: string[]
   email?: string
   facebook?: string
   hours?: string
@@ -52,8 +61,9 @@ export type InstituteDetail = {
   mission: string
   vision: string
   summary: string
-  history: string[]
-  achievements: string[]
+  logo?: string
+  history?: string[]
+  achievements?: string[]
   sedes: Sede[]
   carreras: Carrera[]
   faqs: Faq[]

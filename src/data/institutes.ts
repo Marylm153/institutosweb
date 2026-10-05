@@ -26,8 +26,8 @@ export const institutes: Institute[] = [
     initials: 'UR',
     programs: ['Viticultura y Enología'],
     description: 'Talento técnico para la cadena productiva vitivinícola de Tarija.',
-    hasDetail: false,
-    coordinates: { lat: -21.696, lng: -64.592 },
+    hasDetail: true,
+    coordinates: { lat: -21.7077137, lng: -64.6232565 },
   },
   {
     slug: 'emborozu',

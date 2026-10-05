@@ -82,13 +82,20 @@ export default function InstitutePage() {
         <div className="detail__scrim" />
         <div className="wrap detail__inner">
           <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
+          {detail.logo && (
+            <span className="detail__crest"><img src={detail.logo} alt={`Escudo de ${detail.officialName}`} /></span>
+          )}
           <span className="kicker">{detail.type} · {detail.province}</span>
           <h1 className="detail__title">{detail.officialName}</h1>
           <p className="detail__place"><MapPin size={16} /> {detail.municipality} · {detail.province}</p>
           <p className="detail__lede">{detail.summary}</p>
           <div className="detail__actions">
-            <a className="btn btn--light" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> Escribir por WhatsApp</a>
-            <a className="btn btn--ghost" href={`mailto:${detail.contact.email}`} style={{ color: '#fff', borderColor: 'rgba(255,255,255,.45)' }}><Mail size={17} /> Correo</a>
+            {detail.contact.whatsapp && (
+              <a className="btn btn--light" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> Escribir por WhatsApp</a>
+            )}
+            {detail.contact.email && (
+              <a className="btn btn--ghost" href={`mailto:${detail.contact.email}`} style={{ color: '#fff', borderColor: 'rgba(255,255,255,.45)' }}><Mail size={17} /> Correo</a>
+            )}
           </div>
         </div>
       </section>
@@ -98,7 +105,7 @@ export default function InstitutePage() {
           <div className="facts">
             <Fact label="Nivel" value={detail.carreras[0]?.level ?? 'Técnico Superior'} />
             <Fact label="Sedes" value={`${detail.sedes.length} ${detail.sedes.length === 1 ? 'sede' : 'sedes'}`} />
-            <Fact label="Estudiantes" value={detail.studentCount ?? '—'} />
+            {detail.studentCount && <Fact label="Estudiantes" value={detail.studentCount} />}
             <Fact label="Fundado" value={detail.founded} />
           </div>
         </div>
@@ -181,20 +188,26 @@ export default function InstitutePage() {
         </div>
       </section>
 
-      <section className="wrap section">
-        <div className="section-head">
-          <h2>Una institución que <em>crece.</em></h2>
-        </div>
-        <div className="panels" style={{ gap: 20 }}>
-          <div className="history">
-            {detail.history.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+      {((detail.history?.length ?? 0) > 0 || (detail.achievements?.length ?? 0) > 0) && (
+        <section className="wrap section">
+          <div className="section-head">
+            <h2>Una institución que <em>crece.</em></h2>
           </div>
-          <aside className="achievements">
-            <h3>Logros institucionales</h3>
-            <ul>{detail.achievements.map((item) => <li key={item}>{item}</li>)}</ul>
-          </aside>
-        </div>
-      </section>
+          <div className="panels" style={{ gap: 20 }}>
+            {detail.history && detail.history.length > 0 && (
+              <div className="history">
+                {detail.history.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+              </div>
+            )}
+            {detail.achievements && detail.achievements.length > 0 && (
+              <aside className="achievements">
+                <h3>Logros institucionales</h3>
+                <ul>{detail.achievements.map((item) => <li key={item}>{item}</li>)}</ul>
+              </aside>
+            )}
+          </div>
+        </section>
+      )}
 
       <section className="divider" style={{ background: 'var(--surface)' }}>
         <div className="wrap section">
@@ -223,8 +236,15 @@ export default function InstitutePage() {
             <p className="contact__note">Atención de lunes a viernes.</p>
           </div>
           <div className="contact__card">
-            <a className="contact__row" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> WhatsApp {detail.contact.whatsapp}</a>
-            <a className="contact__row" href={`mailto:${detail.contact.email}`}><Mail size={17} /> {detail.contact.email}</a>
+            {detail.contact.whatsapp && (
+              <a className="contact__row" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> WhatsApp {detail.contact.whatsapp}</a>
+            )}
+            {detail.contact.phones?.map((phone) => (
+              <a className="contact__row" key={phone} href={`tel:+591${phone}`}><Phone size={17} /> {phone}</a>
+            ))}
+            {detail.contact.email && (
+              <a className="contact__row" href={`mailto:${detail.contact.email}`}><Mail size={17} /> {detail.contact.email}</a>
+            )}
             {detail.contact.facebook && (
               <a className="contact__row" href={`https://www.facebook.com/search/top?q=${encodeURIComponent(detail.contact.facebook)}`} target="_blank" rel="noreferrer">
                 <Target size={17} /> {detail.contact.facebook}
@@ -236,8 +256,12 @@ export default function InstitutePage() {
       </section>
 
       <div className="actionbar">
-        <a className="btn btn--primary actionbar__primary" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> WhatsApp</a>
-        <a className="actionbar__icon" href={`tel:+591${detail.contact.whatsapp}`} aria-label="Llamar por teléfono"><Phone size={19} /></a>
+        {detail.contact.whatsapp && (
+          <a className="btn btn--primary actionbar__primary" href={`https://wa.me/591${detail.contact.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> WhatsApp</a>
+        )}
+        {(detail.contact.whatsapp || detail.contact.phones?.[0]) && (
+          <a className="actionbar__icon" href={`tel:+591${detail.contact.whatsapp ?? detail.contact.phones?.[0]}`} aria-label="Llamar por teléfono"><Phone size={19} /></a>
+        )}
         {sede?.mapUrl && <a className="actionbar__icon" href={sede.mapUrl} target="_blank" rel="noreferrer" aria-label="Cómo llegar"><Navigation size={19} /></a>}
       </div>
     </main>
@@ -324,18 +348,24 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
         </div>
 
         <div className="career__cols">
-          <div>
-            <h4>Perfil profesional</h4>
-            <ul className="dotlist">{carrera.profile.map((item) => <li key={item}>{item}</li>)}</ul>
-          </div>
-          <div>
-            <h4>Campo laboral</h4>
-            <ul className="dotlist">{carrera.workField.map((item) => <li key={item}>{item}</li>)}</ul>
-          </div>
-          <div>
-            <h4>Infraestructura y práctica</h4>
-            <ul className="dotlist">{carrera.infrastructure.map((item) => <li key={item}>{item}</li>)}</ul>
-          </div>
+          {carrera.profile.length > 0 && (
+            <div>
+              <h4>Perfil profesional</h4>
+              <ul className="dotlist">{carrera.profile.map((item) => <li key={item}>{item}</li>)}</ul>
+            </div>
+          )}
+          {carrera.workField.length > 0 && (
+            <div>
+              <h4>Campo laboral</h4>
+              <ul className="dotlist">{carrera.workField.map((item) => <li key={item}>{item}</li>)}</ul>
+            </div>
+          )}
+          {carrera.infrastructure.length > 0 && (
+            <div>
+              <h4>Infraestructura y práctica</h4>
+              <ul className="dotlist">{carrera.infrastructure.map((item) => <li key={item}>{item}</li>)}</ul>
+            </div>
+          )}
         </div>
 
         <div className="curriculum">
@@ -345,10 +375,21 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
               {carrera.curriculum.map((year) => (
                 <div className="curriculum__year" key={year.year}>
                   <strong>{year.year}</strong>
-                  <ul className="dotlist">{year.subjects.map((subject) => <li key={subject}>{subject}</li>)}</ul>
+                  <ul className="curriculum__subjects">
+                    {year.subjects.map((subject) => (
+                      <li className="curriculum__subject" key={subject.code}>
+                        <span className="curriculum__code">{subject.code}</span>
+                        <span className="curriculum__name">{subject.name}</span>
+                        <span className="curriculum__hours">{subject.hours} h</span>
+                        {subject.prerequisite && <span className="curriculum__pre">Requiere {subject.prerequisite}</span>}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>
+          ) : carrera.curriculumImage ? (
+            <img className="curriculum__image" src={carrera.curriculumImage} alt={`Malla curricular de ${carrera.name}`} loading="lazy" />
           ) : (
             <p className="note-inline">{carrera.curriculumNote ?? 'Malla curricular pendiente de publicación.'}</p>
           )}

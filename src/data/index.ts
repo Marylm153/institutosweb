@@ -1,9 +1,11 @@
 import { institutes } from './institutes'
 import { dosDeAgosto } from './institutes/2-de-agosto'
+import { uriondo } from './institutes/uriondo'
 import type { InstituteDetail } from './types'
 
 const details: Record<string, InstituteDetail> = {
   [dosDeAgosto.slug]: dosDeAgosto,
+  [uriondo.slug]: uriondo,
 }
 
 export function getInstitute(slug?: string) {

@@ -47,6 +47,7 @@ export default function Home() {
   const productImages: Record<string, string | undefined> = {
     'Producción agrícola': galleryFor('2-de-agosto', 'agropecuaria')[0]?.src,
     'Panificación y lácteos': galleryFor('2-de-agosto', 'industria-alimentos')[0]?.src,
+    'Vinos y singanis': galleryFor('uriondo', 'viticultura')[0]?.src,
   }
   const featureIndex = featuredProducts.findIndex((product) => productImages[product.title])
   const feature = featuredProducts[featureIndex >= 0 ? featureIndex : 0]
