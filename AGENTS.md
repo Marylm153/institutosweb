@@ -44,5 +44,5 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 
 ## Deploy (GitHub Pages)
 - `.github/workflows/deploy.yml` builds and deploys `dist/` to GitHub Pages on push to `main` (uses GitHub Actions, not the `pages` branch).
-- Public URL: `https://marylm153.github.io/institutosweb/`; planned custom domain `https://institutos-tarija.is-a.dev/` (set in repo Settings → Pages → Custom domain).
-- `base: './'` also works at the custom-domain root, so no Vite change is needed.
+- Public URL: `https://marylm153.github.io/institutosweb/`.
+- `base: './'` also works for this project path, so no Vite change is needed.

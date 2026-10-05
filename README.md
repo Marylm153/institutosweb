@@ -71,7 +71,6 @@ Además de Codeberg, el repositorio se espeja a GitHub y publica la demo con Git
 
 - Repositorio: `https://github.com/Marylm153/institutosweb`
 - Demo: `https://marylm153.github.io/institutosweb/`
-- Dominio propio (en configuración): `https://institutos-tarija.is-a.dev/`
 
 El workflow `.github/workflows/deploy.yml` compila (`npm ci && npm run build`) y publica `dist/` en cada push a `main`. Para publicar en ambos remotos:
 
@@ -80,7 +79,7 @@ git push origin main
 git push github main
 ```
 
-`vite.config.ts` mantiene `base: './'`, que funciona tanto en el subdirectorio de Codeberg como en la página de proyecto y el dominio propio de GitHub.
+`vite.config.ts` mantiene `base: './'`, que funciona tanto en el subdirectorio de Codeberg como en la página de proyecto de GitHub.
 
 ## Actualizar contenido
 
