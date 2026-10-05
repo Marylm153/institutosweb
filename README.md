@@ -65,6 +65,23 @@ El archivo `.forgejo/workflows/deploy.yml` compila y publica automáticamente ca
 
 La capa cartográfica usa Leaflet y OpenStreetMap con la atribución correspondiente.
 
+## Espejo en GitHub + GitHub Pages
+
+Además de Codeberg, el repositorio se espeja a GitHub y publica la demo con GitHub Actions.
+
+- Repositorio: `https://github.com/Marylm153/institutosweb`
+- Demo: `https://marylm153.github.io/institutosweb/`
+- Dominio propio (en configuración): `https://institutos-tarija.is-a.dev/`
+
+El workflow `.github/workflows/deploy.yml` compila (`npm ci && npm run build`) y publica `dist/` en cada push a `main`. Para publicar en ambos remotos:
+
+```powershell
+git push origin main
+git push github main
+```
+
+`vite.config.ts` mantiene `base: './'`, que funciona tanto en el subdirectorio de Codeberg como en la página de proyecto y el dominio propio de GitHub.
+
 ## Actualizar contenido
 
 La primera versión no tiene backend. El administrador actualiza los registros de `src/data/`, copia las fotografías a `Assets/images/institutos/<slug>/<carrera>/`, confirma el cambio en el repositorio y vuelve a generar el sitio.

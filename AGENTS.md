@@ -32,9 +32,17 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 - Leaflet uses public OpenStreetMap tiles; keep the attribution.
 - Environment is Windows + PowerShell; quote paths that contain spaces.
 
+## Remotes
+- `origin` → Codeberg (`https://codeberg.org/yemih/institutosweb.git`); `github` → `https://github.com/Marylm153/institutosweb.git`. Push `main` to both to keep the mirror in sync.
+
 ## Deploy (Codeberg Pages)
 - Live at `https://yemih.codeberg.page/institutosweb/`; the `pages` branch is served as-is by the Codeberg Pages webhook. That branch must contain ONLY the built site (`dist/`), never the source.
 - Publish/update with `powershell -File scripts/publish-pages.ps1` (builds, copies `dist/` to a `pages` worktree, pushes). Idempotent.
 - `.forgejo/workflows/deploy.yml` is the alternative CI method: on push to `main` it builds to `_site/` and publishes via `codeberg.org/git-pages/action@v2` (requires Forgejo Actions enabled).
 - `vite.config.ts` `base` MUST stay `'./'` for the `/institutosweb/` subpath; `'./institutosweb/'` breaks asset URLs.
 - `dist/`, `node_modules/` are gitignored; `_site/` is a CI-only artifact.
+
+## Deploy (GitHub Pages)
+- `.github/workflows/deploy.yml` builds and deploys `dist/` to GitHub Pages on push to `main` (uses GitHub Actions, not the `pages` branch).
+- Public URL: `https://marylm153.github.io/institutosweb/`; planned custom domain `https://institutos-tarija.is-a.dev/` (set in repo Settings → Pages → Custom domain).
+- `base: './'` also works at the custom-domain root, so no Vite change is needed.
