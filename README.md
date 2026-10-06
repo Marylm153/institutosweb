@@ -62,13 +62,13 @@ Para habilitar el detalle de un instituto basta con crear su archivo en `src/dat
 
 ## Optimizar imágenes
 
-Antes de subir fotografías nuevas, reducir su peso:
+Las fotografías de los institutos se publican en **WebP** para reducir el peso del sitio. Antes de subir fotos nuevas, conviértelas:
 
-```powershell
-powershell -File scripts/optimize-images.ps1
+```bash
+python scripts/to-webp.py
 ```
 
-El script redimensiona a un máximo de 1400 px y recomprime en JPEG. Es seguro volver a ejecutarlo.
+Convierte cada `.jpg/.jpeg/.png` de `Assets/images/institutos/` a `.webp` (lado máximo 1200 px, calidad 70), elimina el original y reporta el peso antes/después. Requiere `python -m pip install pillow`. Es seguro volver a ejecutarlo; los archivos ya convertidos se omiten (no hay jpg/png pendientes).
 
 ## Licencia
 

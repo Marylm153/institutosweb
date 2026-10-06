@@ -18,7 +18,7 @@ import {
   Target,
   Users,
 } from 'lucide-react'
-import portada from '../../Assets/images/portada.jpg'
+import portada from '../../Assets/images/portada.webp'
 import { galleryFor, getInstitute, getInstituteDetail } from '../data'
 import type { Carrera } from '../data'
 

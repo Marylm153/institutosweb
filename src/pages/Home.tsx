@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import portada from '../../Assets/images/portada.jpg'
+import portada from '../../Assets/images/portada.webp'
 import {
   featuredProducts,
   galleryFor,

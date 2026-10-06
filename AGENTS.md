@@ -9,7 +9,7 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 - `npm run dev` — Vite dev server.
 - `npm run build` — runs `tsc -b && vite build`. This is the ONLY verification; there are no test or lint scripts. Run it after every change.
 - `npm run preview` — serve the production build locally.
-- `powershell -File scripts/optimize-images.ps1` — resize/recompress institute JPEGs before committing new photos.
+- `python scripts/to-webp.py` — converts institute photos to WebP (needs `pip install pillow`). Run it after adding new photos; `Assets/images/institutos/**` is globbed as `{jpg,jpeg,png,webp}`.
 
 ## Architecture
 - `src/main.tsx` mounts `<HashRouter>`; `src/App.tsx` defines routes `/` (Home), `/instituto/:slug` (InstitutePage) and `*` (NotFound). It also renders the skip-link and moves focus to `#main-content` on route change.

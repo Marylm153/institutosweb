@@ -1,7 +1,7 @@
 import { institutes } from './institutes'
 import type { GalleryImage, HeroSlide } from './types'
 
-const files = import.meta.glob('../../Assets/images/institutos/**/*.{jpg,jpeg,png}', {
+const files = import.meta.glob('../../Assets/images/institutos/**/*.{jpg,jpeg,png,webp}', {
   eager: true,
   import: 'default',
 }) as Record<string, string>
