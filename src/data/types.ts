@@ -72,6 +72,7 @@ export type InstituteDetail = {
   mission?: string
   vision?: string
   summary: string
+  about?: string
   logo?: string
   history?: string[]
   achievements?: string[]

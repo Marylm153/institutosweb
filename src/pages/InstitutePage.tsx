@@ -134,6 +134,7 @@ export default function InstitutePage() {
 
       <section className="wrap section" id="resumen">
         <h2>Resumen</h2>
+        {detail.about && <p className="lede resumen-about">{detail.about}</p>}
         {(detail.mission || detail.vision) && (
           <div className="panels" style={{ marginTop: 20 }}>
             {detail.mission && (

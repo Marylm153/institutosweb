@@ -8,6 +8,8 @@ export const bermejo: InstituteDetail = {
   province: 'Arce',
   summary:
     'El Instituto Tecnológico Bermejo forma Técnicos Superiores en Construcción Civil, Industria Textil y Confección y Mecánica Automotriz. Funciona en la Colonia Linares, municipio de Bermejo, provincia Arce, y desarrolla su oferta en régimen anual de tres años.',
+  about:
+    'El Instituto Tecnológico Bermejo es una institución de formación técnica de nivel superior ubicada en la Colonia Linares, en el extremo sur del departamento de Tarija. Su oferta articula la construcción civil, la industria textil y la mecánica automotriz con las necesidades productivas y de servicios de la región, con énfasis en la práctica y en la formación de técnicos capaces de emprender e insertarse laboralmente.',
   sedes: [
     {
       name: 'Sede Bermejo – Colonia Linares',
