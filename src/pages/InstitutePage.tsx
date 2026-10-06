@@ -134,16 +134,22 @@ export default function InstitutePage() {
 
       <section className="wrap section" id="resumen">
         <h2>Resumen</h2>
-        <div className="panels" style={{ marginTop: 20 }}>
-          <article className="panel">
-            <h3>Misión</h3>
-            <p>{detail.mission}</p>
-          </article>
-          <article className="panel">
-            <h3>Visión</h3>
-            <p>{detail.vision}</p>
-          </article>
-        </div>
+        {(detail.mission || detail.vision) && (
+          <div className="panels" style={{ marginTop: 20 }}>
+            {detail.mission && (
+              <article className="panel">
+                <h3>Misión</h3>
+                <p>{detail.mission}</p>
+              </article>
+            )}
+            {detail.vision && (
+              <article className="panel">
+                <h3>Visión</h3>
+                <p>{detail.vision}</p>
+              </article>
+            )}
+          </div>
+        )}
         {detail.authorities && detail.authorities.length > 0 ? (
           <div className="authorities">
             {detail.authorities.map((authority) => (
@@ -507,6 +513,7 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
 function Gallery({ slug, carreras }: { slug: string; carreras: Carrera[] }) {
   const [filter, setFilter] = useState('todas')
   const images = filter === 'todas' ? galleryFor(slug) : galleryFor(slug, filter)
+  const filterCareers = carreras.filter((carrera) => galleryFor(slug, carrera.mediaKey).length > 0)
 
   return (
     <section className="divider">
@@ -515,12 +522,14 @@ function Gallery({ slug, carreras }: { slug: string; carreras: Carrera[] }) {
           <h2>Así se aprende <em>en el instituto.</em></h2>
           <p className="lede">Prácticas de campo, laboratorio y actividades productivas de nuestros estudiantes.</p>
         </div>
-        <div className="gallery__filters" role="group" aria-label="Filtrar la galería por carrera">
-          <button className={`chip${filter === 'todas' ? ' is-active' : ''}`} aria-pressed={filter === 'todas'} onClick={() => setFilter('todas')}>Todas</button>
-          {carreras.map((carrera) => (
-            <button key={carrera.mediaKey} className={`chip${filter === carrera.mediaKey ? ' is-active' : ''}`} aria-pressed={filter === carrera.mediaKey} onClick={() => setFilter(carrera.mediaKey)}>{carrera.name}</button>
-          ))}
-        </div>
+        {filterCareers.length > 0 && (
+          <div className="gallery__filters" role="group" aria-label="Filtrar la galería por carrera">
+            <button className={`chip${filter === 'todas' ? ' is-active' : ''}`} aria-pressed={filter === 'todas'} onClick={() => setFilter('todas')}>Todas</button>
+            {filterCareers.map((carrera) => (
+              <button key={carrera.mediaKey} className={`chip${filter === carrera.mediaKey ? ' is-active' : ''}`} aria-pressed={filter === carrera.mediaKey} onClick={() => setFilter(carrera.mediaKey)}>{carrera.name}</button>
+            ))}
+          </div>
+        )}
         <div className="gallery__grid">
           {images.map((image) => <img key={image.src} src={image.src} alt={image.alt} loading="lazy" />)}
         </div>

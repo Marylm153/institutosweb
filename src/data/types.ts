@@ -69,8 +69,8 @@ export type InstituteDetail = {
   studentCount?: string
   authority?: string
   authorityRole?: string
-  mission: string
-  vision: string
+  mission?: string
+  vision?: string
   summary: string
   logo?: string
   history?: string[]

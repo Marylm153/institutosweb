@@ -13,6 +13,9 @@ const CAREER_LABELS: Record<string, string> = {
   musica: 'Formación musical',
   turismo: 'Turismo',
   veterinaria: 'Veterinaria y Zootecnia',
+  'construccion-civil': 'Construcción Civil',
+  'industria-textil': 'Industria Textil y Confección',
+  mecanica: 'Mecánica Automotriz',
   general: 'Vida institucional',
 }
 
