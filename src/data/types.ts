@@ -18,6 +18,11 @@ export type Sede = {
 
 export type OfertaItem = { title: string; items: string[] }
 
+export type VitrinaItem = { name: string; presentation?: string; description?: string }
+export type VitrinaGroup = { title: string; note?: string; items: VitrinaItem[] }
+export type Authority = { name: string; role: string }
+export type DocumentLink = { label: string; file: string }
+
 export type CurriculumSubject = {
   code: string
   name: string
@@ -71,6 +76,9 @@ export type InstituteDetail = {
   history?: string[]
   achievements?: string[]
   oferta?: OfertaItem[]
+  vitrina?: VitrinaGroup[]
+  authorities?: Authority[]
+  documents?: DocumentLink[]
   sedes: Sede[]
   carreras?: Carrera[]
   faqs: Faq[]

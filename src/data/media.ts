@@ -11,6 +11,8 @@ const CAREER_LABELS: Record<string, string> = {
   'industria-alimentos': 'Industria de Alimentos',
   viticultura: 'Viticultura y Enología',
   musica: 'Formación musical',
+  turismo: 'Turismo',
+  veterinaria: 'Veterinaria y Zootecnia',
   general: 'Vida institucional',
 }
 

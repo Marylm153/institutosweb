@@ -384,6 +384,24 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .product-mini strong { display: block; font-size: 14px; margin: 8px 0 3px; }
 .product-mini span { color: var(--ink-3); font-size: 12.5px; }
 
+.vitrina-groups { display: grid; gap: 14px; }
+.vitrina-group { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 22px; }
+.vitrina-group__head { margin-bottom: 14px; }
+.vitrina-group__head h3 { font-size: 17px; }
+.vitrina-group__head p { color: var(--ink-3); font-size: 13px; margin-top: 4px; }
+.vitrina-group__items { list-style: none; display: grid; gap: 12px; }
+.vitrina-group__items li { display: grid; gap: 2px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.vitrina-group__items li:last-child { border-bottom: 0; padding-bottom: 0; }
+.vitrina-group__items strong { font-size: 14.5px; }
+.vitrina-group__pres { color: var(--red); font-size: 12.5px; }
+.vitrina-group__desc { color: var(--ink-2); font-size: 13px; }
+.downloads { display: grid; gap: 10px; }
+.download { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; text-decoration: none; color: var(--ink); font-size: 14px; font-weight: 550; }
+.download:hover { border-color: var(--line-strong); }
+.download svg { color: var(--red); flex-shrink: 0; }
+.authorities { display: grid; gap: 8px; margin-top: 16px; }
+.authorities .authority { margin: 0; }
+
 .history { display: grid; gap: 14px; }
 .history p { color: var(--ink-2); font-size: 14.5px; line-height: 1.7; }
 .achievements { background: var(--ink); color: #fff; border-radius: var(--r-md); padding: 24px; }
@@ -449,6 +467,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   .sedes { grid-template-columns: repeat(2, 1fr); }
   .career__gallery img { height: 220px; }
   .products-mini { grid-template-columns: 1fr 1fr; }
+  .vitrina-groups { grid-template-columns: repeat(2, 1fr); }
   .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; padding: 34px; }
   .contact__card { margin-top: 0; }
 }

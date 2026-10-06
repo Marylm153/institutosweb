@@ -8,6 +8,7 @@ import {
   BookOpen,
   CalendarDays,
   Clock,
+  Download,
   GraduationCap,
   Mail,
   MapPin,
@@ -21,11 +22,12 @@ import portada from '../../Assets/images/portada.jpg'
 import { galleryFor, getInstitute, getInstituteDetail } from '../data'
 import type { Carrera } from '../data'
 
-const sectionIds = ['resumen', 'oferta', 'carreras', 'sedes', 'galeria', 'contacto']
+const sectionIds = ['resumen', 'oferta', 'carreras', 'vitrina', 'sedes', 'galeria', 'contacto']
 const sectionLabels: Record<string, string> = {
   resumen: 'Resumen',
   oferta: 'Oferta',
   carreras: 'Carreras',
+  vitrina: 'Vitrina',
   sedes: 'Sedes',
   galeria: 'Galería',
   contacto: 'Contacto',
@@ -123,7 +125,7 @@ export default function InstitutePage() {
       <nav className="subnav" aria-label="Secciones del instituto">
         <div className="subnav__inner">
           {sectionIds
-            .filter((id) => (id === 'oferta' ? (detail.oferta?.length ?? 0) > 0 : id === 'carreras' ? (detail.carreras?.length ?? 0) > 0 : true))
+            .filter((id) => (id === 'oferta' ? (detail.oferta?.length ?? 0) > 0 : id === 'carreras' ? (detail.carreras?.length ?? 0) > 0 : id === 'vitrina' ? (detail.vitrina?.length ?? 0) > 0 : true))
             .map((id) => (
               <a key={id} href={`#${id}`} className={active === id ? 'is-active' : undefined} onClick={goToSection(id)}>{sectionLabels[id]}</a>
             ))}
@@ -142,9 +144,15 @@ export default function InstitutePage() {
             <p>{detail.vision}</p>
           </article>
         </div>
-        {detail.authority && (
+        {detail.authorities && detail.authorities.length > 0 ? (
+          <div className="authorities">
+            {detail.authorities.map((authority) => (
+              <p className="authority" key={authority.name}><Award size={16} /> <span><strong>{authority.role}:</strong> {authority.name}</span></p>
+            ))}
+          </div>
+        ) : detail.authority ? (
           <p className="authority"><Award size={17} /> <span><strong>{detail.authorityRole}:</strong> {detail.authority}</span></p>
-        )}
+        ) : null}
       </section>
 
       {detail.oferta && detail.oferta.length > 0 && (
@@ -174,6 +182,36 @@ export default function InstitutePage() {
               <p className="lede">Formación Técnico Superior con pertinencia productiva y título del Ministerio de Educación.</p>
             </div>
             <CareerSection slug={detail.slug} carreras={detail.carreras} />
+          </div>
+        </section>
+      )}
+
+      {detail.vitrina && detail.vitrina.length > 0 && (
+        <section className="divider" style={{ background: 'var(--surface)' }}>
+          <div className="wrap section" id="vitrina">
+            <div className="section-head">
+              <h2>Vitrina <em>productiva.</em></h2>
+              <p className="lede">Productos y servicios generados en las actividades académicas y productivas del instituto.</p>
+            </div>
+            <div className="vitrina-groups">
+              {detail.vitrina.map((group) => (
+                <div className="vitrina-group" key={group.title}>
+                  <div className="vitrina-group__head">
+                    <h3>{group.title}</h3>
+                    {group.note && <p>{group.note}</p>}
+                  </div>
+                  <ul className="vitrina-group__items">
+                    {group.items.map((item) => (
+                      <li key={item.name}>
+                        <strong>{item.name}</strong>
+                        {item.presentation && <span className="vitrina-group__pres">{item.presentation}</span>}
+                        {item.description && <span className="vitrina-group__desc">{item.description}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       )}
@@ -268,6 +306,21 @@ export default function InstitutePage() {
           </div>
         </div>
       </section>
+
+      {detail.documents && detail.documents.length > 0 && (
+        <section className="wrap section">
+          <div className="section-head">
+            <h2>Documentos y <em>descargas.</em></h2>
+          </div>
+          <div className="downloads">
+            {detail.documents.map((doc) => (
+              <a className="download" key={doc.file} href={doc.file} target="_blank" rel="noreferrer">
+                <Download size={18} /> {doc.label}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="wrap section" id="contacto">
         <div className="section-head">
