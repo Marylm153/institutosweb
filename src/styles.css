@@ -400,6 +400,8 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .download:hover { border-color: var(--line-strong); }
 .download svg { color: var(--red); flex-shrink: 0; }
 .resumen-about { max-width: 72ch; margin-top: 12px; }
+.convenios { list-style: none; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.convenios li { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; font-size: 14px; font-weight: 550; }
 .authorities { display: grid; gap: 8px; margin-top: 16px; }
 .authorities .authority { margin: 0; }
 

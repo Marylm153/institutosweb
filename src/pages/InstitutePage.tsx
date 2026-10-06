@@ -22,12 +22,13 @@ import portada from '../../Assets/images/portada.webp'
 import { galleryFor, getInstitute, getInstituteDetail } from '../data'
 import type { Carrera } from '../data'
 
-const sectionIds = ['resumen', 'oferta', 'carreras', 'vitrina', 'sedes', 'galeria', 'contacto']
+const sectionIds = ['resumen', 'oferta', 'carreras', 'vitrina', 'convenios', 'sedes', 'galeria', 'contacto']
 const sectionLabels: Record<string, string> = {
   resumen: 'Resumen',
   oferta: 'Oferta',
   carreras: 'Carreras',
   vitrina: 'Vitrina',
+  convenios: 'Convenios',
   sedes: 'Sedes',
   galeria: 'Galería',
   contacto: 'Contacto',
@@ -125,7 +126,7 @@ export default function InstitutePage() {
       <nav className="subnav" aria-label="Secciones del instituto">
         <div className="subnav__inner">
           {sectionIds
-            .filter((id) => (id === 'oferta' ? (detail.oferta?.length ?? 0) > 0 : id === 'carreras' ? (detail.carreras?.length ?? 0) > 0 : id === 'vitrina' ? (detail.vitrina?.length ?? 0) > 0 : true))
+            .filter((id) => (id === 'oferta' ? (detail.oferta?.length ?? 0) > 0 : id === 'carreras' ? (detail.carreras?.length ?? 0) > 0 : id === 'vitrina' ? (detail.vitrina?.length ?? 0) > 0 : id === 'convenios' ? (detail.convenios?.length ?? 0) > 0 : true))
             .map((id) => (
               <a key={id} href={`#${id}`} className={active === id ? 'is-active' : undefined} onClick={goToSection(id)}>{sectionLabels[id]}</a>
             ))}
@@ -207,19 +208,33 @@ export default function InstitutePage() {
                     <h3>{group.title}</h3>
                     {group.note && <p>{group.note}</p>}
                   </div>
-                  <ul className="vitrina-group__items">
-                    {group.items.map((item) => (
-                      <li key={item.name}>
-                        <strong>{item.name}</strong>
-                        {item.presentation && <span className="vitrina-group__pres">{item.presentation}</span>}
-                        {item.description && <span className="vitrina-group__desc">{item.description}</span>}
-                      </li>
-                    ))}
-                  </ul>
+                  {group.items.length > 0 && (
+                    <ul className="vitrina-group__items">
+                      {group.items.map((item) => (
+                        <li key={item.name}>
+                          <strong>{item.name}</strong>
+                          {item.presentation && <span className="vitrina-group__pres">{item.presentation}</span>}
+                          {item.description && <span className="vitrina-group__desc">{item.description}</span>}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               ))}
             </div>
           </div>
+        </section>
+      )}
+
+      {detail.convenios && detail.convenios.length > 0 && (
+        <section className="wrap section" id="convenios">
+          <div className="section-head">
+            <h2>Convenios y <em>prácticas.</em></h2>
+            <p className="lede">Instituciones y empresas donde los estudiantes realizan prácticas y vinculación.</p>
+          </div>
+          <ul className="convenios">
+            {detail.convenios.map((item) => <li key={item}>{item}</li>)}
+          </ul>
         </section>
       )}
 

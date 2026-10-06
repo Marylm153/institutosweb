@@ -79,6 +79,7 @@ export type InstituteDetail = {
   oferta?: OfertaItem[]
   vitrina?: VitrinaGroup[]
   authorities?: Authority[]
+  convenios?: string[]
   documents?: DocumentLink[]
   sedes: Sede[]
   carreras?: Carrera[]
