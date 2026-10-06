@@ -368,7 +368,9 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .sede__ref { color: var(--ink-3); font-size: 12.5px; margin-top: 6px; }
 .sede__meta { list-style: none; display: grid; gap: 8px; margin-top: 14px; }
 .sede__meta li { display: flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 13px; }
-.sede__meta svg { color: var(--red); }
+.sede__meta svg { color: var(--red); flex-shrink: 0; }
+.sede__instruments { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.sede__instruments span { background: var(--surface); border-radius: var(--r-full); padding: 4px 10px; font-size: 12px; color: var(--ink-2); }
 .sede__links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
 .sede__links .link-arrow { font-size: 13px; }
 

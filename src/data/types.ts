@@ -9,8 +9,14 @@ export type Sede = {
   coordinates: Coordinates
   whatsapp?: string
   schedule?: string
+  days?: string
+  ages?: string
+  teacher?: string
+  instruments?: string[]
   mapUrl?: string
 }
+
+export type OfertaItem = { title: string; items: string[] }
 
 export type CurriculumSubject = {
   code: string
@@ -54,7 +60,7 @@ export type InstituteDetail = {
   type: InstituteType
   municipality: string
   province: string
-  founded: string
+  founded?: string
   studentCount?: string
   authority?: string
   authorityRole?: string
@@ -64,11 +70,12 @@ export type InstituteDetail = {
   logo?: string
   history?: string[]
   achievements?: string[]
+  oferta?: OfertaItem[]
   sedes: Sede[]
-  carreras: Carrera[]
+  carreras?: Carrera[]
   faqs: Faq[]
   contact: InstituteContact
-  products: { title: string; description: string }[]
+  products?: { title: string; description: string }[]
 }
 
 export type Institute = {

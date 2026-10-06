@@ -10,6 +10,7 @@ const CAREER_LABELS: Record<string, string> = {
   agropecuaria: 'Agropecuaria',
   'industria-alimentos': 'Industria de Alimentos',
   viticultura: 'Viticultura y Enología',
+  musica: 'Formación musical',
   general: 'Vida institucional',
 }
 

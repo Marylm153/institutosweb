@@ -33,17 +33,10 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 - Environment is Windows + PowerShell; quote paths that contain spaces.
 
 ## Remotes
-- `origin` → Codeberg (`https://codeberg.org/yemih/institutosweb.git`); `github` → `https://github.com/Marylm153/institutosweb.git`. Push `main` to both to keep the mirror in sync.
+- `github` → `https://github.com/Marylm153/institutosweb.git`. Push `main` there; Render autodeploys from GitHub.
 
-## Deploy (Codeberg Pages)
-- Live at `https://yemih.codeberg.page/institutosweb/`; the `pages` branch is served as-is by the Codeberg Pages webhook. That branch must contain ONLY the built site (`dist/`), never the source.
-- Publish/update with `powershell -File scripts/publish-pages.ps1` (builds, copies `dist/` to a `pages` worktree, pushes). Idempotent.
-- `.forgejo/workflows/deploy.yml` is the alternative CI method: on push to `main` it builds to `_site/` and publishes via `codeberg.org/git-pages/action@v2` (requires Forgejo Actions enabled).
-- `vite.config.ts` `base` MUST stay `'./'` for the `/institutosweb/` subpath; `'./institutosweb/'` breaks asset URLs.
-- `dist/`, `node_modules/` are gitignored; `_site/` is a CI-only artifact.
-
-## Deploy (GitHub Pages)
-- `.github/workflows/deploy.yml` builds and deploys `dist/` to GitHub Pages on push to `main` (uses GitHub Actions, not the `pages` branch).
-- Public URL: `https://marylm153.github.io/institutosweb/`.
-- Render also serves the same build at `https://institutosweb.onrender.com/` (connected to the GitHub repo).
-- `base: './'` also works for this project path, so no Vite change is needed.
+## Deploy
+- **Render**: autodeploys on every push to `main` (connected to the GitHub repo). Public URL: `https://institutosweb.onrender.com/`.
+- **GitHub Pages**: `.github/workflows/deploy.yml` builds and publishes `dist/` on push to `main` (GitHub Actions). Public URL: `https://marylm153.github.io/institutosweb/`.
+- `vite.config.ts` `base` MUST stay `'./'`; `'./institutosweb/'` breaks asset URLs.
+- `dist/`, `node_modules/` are gitignored.

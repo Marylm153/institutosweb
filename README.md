@@ -33,54 +33,26 @@ Para generar la versión de producción:
 npm run build
 ```
 
-La salida se genera en `dist/` y puede publicarse en Codeberg Pages. El sitio usa `base: './'` para funcionar en la ruta del repositorio sin configuración adicional.
+La salida se genera en `dist/`. El sitio usa `base: './'` para funcionar en la ruta del repositorio sin configuración adicional.
 
-## Publicación en Codeberg Pages
+## Publicación (GitHub + Render)
 
-El sitio queda disponible en:
-
-`https://USUARIO.codeberg.page/NOMBRE-DEL-REPOSITORIO/`
-
-Hay dos formas de publicar. El branch de Pages debe contener **solo el sitio compilado** (el contenido de `dist/`), nunca el código fuente.
-
-### Método por webhook (branch `pages`)
-
-Si configuraste el webhook de Forgejo apuntando al branch `pages`, publica el build con:
-
-```powershell
-powershell -File scripts/publish-pages.ps1
-```
-
-El script compila, copia `dist/` al branch `pages` en un worktree temporal y lo empuja a `origin`. Es seguro repetirlo: si no hay cambios, no crea commit.
-
-Si el branch `pages` alguna vez contiene `src/` o un `index.html` que carga `/src/main.tsx`, la página se verá en blanco con un error 404 de `main.tsx`. Eso significa que se publicó el fuente en vez del build.
-
-### Método por Forgejo Actions
-
-El archivo `.forgejo/workflows/deploy.yml` compila y publica automáticamente cada push a `main` usando `codeberg.org/git-pages/action@v2`. Requiere tener Actions habilitado en el repositorio.
-
-### Base de rutas
-
-`vite.config.ts` debe mantener `base: './'` para que los assets funcionen bajo el subdirectorio `/institutosweb/`. Un valor como `'./institutosweb/'` rompe las rutas de los assets.
-
-La capa cartográfica usa Leaflet y OpenStreetMap con la atribución correspondiente.
-
-## Espejo en GitHub + GitHub Pages
-
-Además de Codeberg, el repositorio se espeja a GitHub y publica la demo con GitHub Actions.
+El repositorio vive en GitHub y Render hace **autodeploy** en cada push a `main`.
 
 - Repositorio: `https://github.com/Marylm153/institutosweb`
 - Demo en GitHub Pages: `https://marylm153.github.io/institutosweb/`
 - Demo en Render: `https://institutosweb.onrender.com/`
 
-El workflow `.github/workflows/deploy.yml` compila (`npm ci && npm run build`) y publica `dist/` en cada push a `main`. Para publicar en ambos remotos:
+Para publicar, empuja a `main`:
 
 ```powershell
-git push origin main
 git push github main
 ```
 
-`vite.config.ts` mantiene `base: './'`, que funciona tanto en el subdirectorio de Codeberg como en la página de proyecto de GitHub.
+- **Render**: conectado al repositorio de GitHub; despliega automáticamente cada commit (build `npm install && npm run build`, publish `dist/`).
+- **GitHub Pages** (opcional): el workflow `.github/workflows/deploy.yml` compila y publica `dist/` en cada push a `main`.
+
+`vite.config.ts` mantiene `base: './'`, que funciona en la página de proyecto de GitHub y en Render. La capa cartográfica usa Leaflet y OpenStreetMap con la atribución correspondiente.
 
 ## Actualizar contenido
 

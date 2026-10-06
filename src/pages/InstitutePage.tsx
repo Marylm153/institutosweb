@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   Award,
   BookOpen,
+  CalendarDays,
   Clock,
   GraduationCap,
   Mail,
@@ -14,14 +15,16 @@ import {
   Navigation,
   Phone,
   Target,
+  Users,
 } from 'lucide-react'
 import portada from '../../Assets/images/portada.jpg'
 import { galleryFor, getInstitute, getInstituteDetail } from '../data'
 import type { Carrera } from '../data'
 
-const sectionIds = ['resumen', 'carreras', 'sedes', 'galeria', 'contacto']
+const sectionIds = ['resumen', 'oferta', 'carreras', 'sedes', 'galeria', 'contacto']
 const sectionLabels: Record<string, string> = {
   resumen: 'Resumen',
+  oferta: 'Oferta',
   carreras: 'Carreras',
   sedes: 'Sedes',
   galeria: 'Galería',
@@ -72,6 +75,7 @@ export default function InstitutePage() {
 
   const cover = galleryFor(detail.slug)[0]?.src ?? portada
   const sede = detail.sedes[0]
+  const ages = detail.sedes.find((item) => item.ages)?.ages
 
   const goToSection = (id: string) => (event: React.MouseEvent) => {
     event.preventDefault()
@@ -107,19 +111,22 @@ export default function InstitutePage() {
       <div className="facts-wrap" style={{ background: 'var(--bg)' }}>
         <div className="wrap">
           <div className="facts">
-            <Fact label="Nivel" value={detail.carreras[0]?.level ?? 'Técnico Superior'} />
+            {detail.carreras?.[0]?.level && <Fact label="Nivel" value={detail.carreras[0].level} />}
             <Fact label="Sedes" value={`${detail.sedes.length} ${detail.sedes.length === 1 ? 'sede' : 'sedes'}`} />
+            {ages && <Fact label="Edades" value={ages} />}
             {detail.studentCount && <Fact label="Estudiantes" value={detail.studentCount} />}
-            <Fact label="Fundado" value={detail.founded} />
+            {detail.founded && <Fact label="Fundado" value={detail.founded} />}
           </div>
         </div>
       </div>
 
       <nav className="subnav" aria-label="Secciones del instituto">
         <div className="subnav__inner">
-          {sectionIds.map((id) => (
-            <a key={id} href={`#${id}`} className={active === id ? 'is-active' : undefined} onClick={goToSection(id)}>{sectionLabels[id]}</a>
-          ))}
+          {sectionIds
+            .filter((id) => (id === 'oferta' ? (detail.oferta?.length ?? 0) > 0 : id === 'carreras' ? (detail.carreras?.length ?? 0) > 0 : true))
+            .map((id) => (
+              <a key={id} href={`#${id}`} className={active === id ? 'is-active' : undefined} onClick={goToSection(id)}>{sectionLabels[id]}</a>
+            ))}
         </div>
       </nav>
 
@@ -140,15 +147,36 @@ export default function InstitutePage() {
         )}
       </section>
 
-      <section className="divider" style={{ background: 'var(--surface)' }}>
-        <div className="wrap section" id="carreras">
-          <div className="section-head">
-            <h2>Conoce nuestras <em>carreras.</em></h2>
-            <p className="lede">Formación Técnico Superior con pertinencia productiva y título del Ministerio de Educación.</p>
+      {detail.oferta && detail.oferta.length > 0 && (
+        <section className="divider" style={{ background: 'var(--surface)' }}>
+          <div className="wrap section" id="oferta">
+            <div className="section-head">
+              <h2>Nuestra <em>oferta.</em></h2>
+              <p className="lede">Especialidades y talleres disponibles para niñas, niños y adolescentes.</p>
+            </div>
+            <div className="panels">
+              {detail.oferta.map((block) => (
+                <article className="panel" key={block.title}>
+                  <h3>{block.title}</h3>
+                  <ul className="dotlist">{block.items.map((item) => <li key={item}>{item}</li>)}</ul>
+                </article>
+              ))}
+            </div>
           </div>
-          <CareerSection slug={detail.slug} carreras={detail.carreras} />
-        </div>
-      </section>
+        </section>
+      )}
+
+      {detail.carreras && detail.carreras.length > 0 && (
+        <section className="divider" style={{ background: 'var(--surface)' }}>
+          <div className="wrap section" id="carreras">
+            <div className="section-head">
+              <h2>Conoce nuestras <em>carreras.</em></h2>
+              <p className="lede">Formación Técnico Superior con pertinencia productiva y título del Ministerio de Educación.</p>
+            </div>
+            <CareerSection slug={detail.slug} carreras={detail.carreras} />
+          </div>
+        </section>
+      )}
 
       <section className="wrap section" id="sedes">
         <div className="section-head">
@@ -162,9 +190,17 @@ export default function InstitutePage() {
               <p className="sede__address">{item.address}</p>
               {item.reference && <p className="sede__ref">Referencia: {item.reference}</p>}
               <ul className="sede__meta">
+                {item.days && <li><CalendarDays size={15} /> {item.days}</li>}
                 {item.schedule && <li><Clock size={15} /> {item.schedule}</li>}
+                {item.ages && <li><Users size={15} /> {item.ages}</li>}
+                {item.teacher && <li><GraduationCap size={15} /> {item.teacher}</li>}
                 {item.whatsapp && <li><MessageCircle size={15} /> {item.whatsapp}</li>}
               </ul>
+              {item.instruments && item.instruments.length > 0 && (
+                <div className="sede__instruments">
+                  {item.instruments.map((instrument) => <span key={instrument}>{instrument}</span>)}
+                </div>
+              )}
               <div className="sede__links">
                 {item.mapUrl && <a className="link-arrow" href={item.mapUrl} target="_blank" rel="noreferrer">Ver en el mapa <ArrowUpRight size={14} /></a>}
                 {item.whatsapp && <a className="link-arrow" href={`https://wa.me/591${item.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp <ArrowUpRight size={14} /></a>}
@@ -174,25 +210,27 @@ export default function InstitutePage() {
         </div>
       </section>
 
-      <Gallery slug={detail.slug} carreras={detail.carreras} />
+      <Gallery slug={detail.slug} carreras={detail.carreras ?? []} />
 
-      <section className="divider" style={{ background: 'var(--surface)' }}>
-        <div className="wrap section">
-          <div className="section-head">
-            <h2>Lo que produce <em>nuestro instituto.</em></h2>
-            <p className="lede">Productos y servicios generados en las actividades académicas y productivas, sujetos a disponibilidad institucional.</p>
+      {detail.products && detail.products.length > 0 && (
+        <section className="divider" style={{ background: 'var(--surface)' }}>
+          <div className="wrap section">
+            <div className="section-head">
+              <h2>Lo que produce <em>nuestro instituto.</em></h2>
+              <p className="lede">Productos y servicios generados en las actividades académicas y productivas, sujetos a disponibilidad institucional.</p>
+            </div>
+            <div className="products-mini">
+              {detail.products.map((product) => (
+                <div className="product-mini" key={product.title}>
+                  <Award size={16} />
+                  <strong>{product.title}</strong>
+                  <span>{product.description}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="products-mini">
-            {detail.products.map((product) => (
-              <div className="product-mini" key={product.title}>
-                <Award size={16} />
-                <strong>{product.title}</strong>
-                <span>{product.description}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {((detail.history?.length ?? 0) > 0 || (detail.achievements?.length ?? 0) > 0) && (
         <section className="wrap section">

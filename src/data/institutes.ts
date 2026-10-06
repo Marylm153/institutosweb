@@ -211,4 +211,18 @@ export const institutes: Institute[] = [
     hasDetail: false,
     coordinates: { lat: -21.5355, lng: -64.7296 },
   },
+  {
+    slug: 'capacitacion-musical',
+    name: 'Programa de Capacitación Musical – Orquesta Sinfónica',
+    shortName: 'Capacitación Musical',
+    type: 'Artístico',
+    location: 'Tarija',
+    province: 'Cercado',
+    focus: 'Formación musical para niños, niñas y adolescentes',
+    initials: 'CM',
+    programs: ['Música', 'Práctica orquestal'],
+    description: 'Formación instrumental y orquestal abierta a niños y jóvenes de Tarija.',
+    hasDetail: true,
+    coordinates: { lat: -21.5286, lng: -64.7229 },
+  },
 ]
