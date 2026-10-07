@@ -5,6 +5,7 @@ import { capacitacionMusical } from './institutes/capacitacion-musical'
 import { emborozu } from './institutes/emborozu'
 import { bermejo } from './institutes/bermejo'
 import { sanIgnacio } from './institutes/san-ignacio'
+import { incosTarija } from './institutes/incos-tarija'
 import type { InstituteDetail } from './types'
 
 const details: Record<string, InstituteDetail> = {
@@ -14,6 +15,7 @@ const details: Record<string, InstituteDetail> = {
   [emborozu.slug]: emborozu,
   [bermejo.slug]: bermejo,
   [sanIgnacio.slug]: sanIgnacio,
+  [incosTarija.slug]: incosTarija,
 }
 
 export function getInstitute(slug?: string) {

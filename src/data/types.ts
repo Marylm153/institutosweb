@@ -40,6 +40,7 @@ export type Carrera = {
   duration: string
   regime: string
   modality: string
+  schedule?: string
   degree: string
   profile: string[]
   workField: string[]

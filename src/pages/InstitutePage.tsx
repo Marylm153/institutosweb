@@ -463,6 +463,7 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
             <span>{carrera.duration}</span>
             <span>{carrera.regime}</span>
             <span>{carrera.modality}</span>
+            {carrera.schedule && <span>Turnos: {carrera.schedule}</span>}
           </div>
         </div>
 

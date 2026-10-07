@@ -17,6 +17,9 @@ const CAREER_LABELS: Record<string, string> = {
   'industria-textil': 'Industria Textil y Confección',
   mecanica: 'Mecánica Automotriz',
   'quimica-industrial': 'Química Industrial',
+  contaduria: 'Contaduría General',
+  sistemas: 'Sistemas Informáticos',
+  secretariado: 'Secretariado Ejecutivo',
   general: 'Vida institucional',
 }
 
