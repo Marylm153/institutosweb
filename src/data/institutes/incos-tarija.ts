@@ -249,10 +249,13 @@ export const incosTarija: InstituteDetail = {
       ],
     },
   ],
+  documents: [
+    { label: 'Formulario de inscripción', file: 'https://incostarija.kesug.com/gestion2/publica/inscripciones.php' },
+  ],
   faqs: [
     { question: '¿Qué carreras ofrece el INCOS TARIJA?', answer: 'Contaduría General, Sistemas Informáticos, Turismo y Secretariado Ejecutivo, todas de nivel Técnico Superior con una duración de 3 años.' },
     { question: '¿En qué turnos se dictan las carreras?', answer: 'Contaduría General en mañana, tarde y noche; Sistemas Informáticos en mañana y noche; Secretariado Ejecutivo en la mañana; y Turismo en la tarde.' },
-    { question: '¿Qué documentos necesito para inscribirme?', answer: 'Comunícate con el instituto al 69306397 para conocer los requisitos y el proceso de inscripción vigente.' },
+    { question: '¿Cómo me inscribo?', answer: 'Completa el formulario de inscripción oficial (en la sección de documentos de esta ficha) o comunícate al 69306397 para conocer los requisitos vigentes.' },
     { question: '¿Dónde funciona el instituto?', answer: 'En el barrio La Terminal, calle Napoleón Raña S/N, entre Av. Jaime Paz Zamora y Bernardo Navajas, Tarija.' },
     { question: '¿Cómo me contacto con el instituto?', answer: 'Al número 69306397.' },
   ],

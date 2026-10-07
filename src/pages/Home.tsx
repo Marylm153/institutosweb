@@ -20,6 +20,7 @@ import {
   getInstituteDetail,
   heroSlides,
   institutes,
+  publishedInstitutes,
   type Institute,
 } from '../data'
 import { useScrollTo } from '../hooks/useScrollTo'
@@ -35,7 +36,7 @@ export default function Home() {
 
   const filteredInstitutes = useMemo(() => {
     const normalizedQuery = query.toLocaleLowerCase('es')
-    return institutes.filter((institute) => {
+    return publishedInstitutes.filter((institute) => {
       const matchesType = activeType === 'Todos' || institute.type === activeType.slice(0, -1)
       const searchableText = [institute.name, institute.location, institute.province, institute.focus, ...institute.programs]
         .join(' ')
@@ -115,7 +116,7 @@ export default function Home() {
               <details className="map__list" style={{ marginTop: 12 }}>
                 <summary>Ver todas las sedes en texto</summary>
                 <ul id="map-sedes-list">
-                  {institutes.map((institute) => (
+                  {publishedInstitutes.map((institute) => (
                     <li key={institute.slug}>
                       <Link to={`/instituto/${institute.slug}`}>{institute.shortName}</Link>
                       <span>{institute.location} · {institute.province}</span>
@@ -307,7 +308,7 @@ function TarijaMap() {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map)
 
-    const points: { name: string; position: L.LatLngExpression; slug: string; art: boolean }[] = institutes
+    const points: { name: string; position: L.LatLngExpression; slug: string; art: boolean }[] = publishedInstitutes
       .filter((institute) => institute.coordinates)
       .map((institute) => ({
         name: institute.name,
@@ -316,7 +317,7 @@ function TarijaMap() {
         art: institute.type === 'Artístico',
       }))
 
-    institutes.forEach((institute) => {
+    publishedInstitutes.forEach((institute) => {
       getInstituteDetail(institute.slug)?.sedes.forEach((sede) => {
         points.push({ name: `${institute.name} – ${sede.name}`, position: [sede.coordinates.lat, sede.coordinates.lng], slug: institute.slug, art: institute.type === 'Artístico' })
       })

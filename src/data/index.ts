@@ -18,6 +18,8 @@ const details: Record<string, InstituteDetail> = {
   [incosTarija.slug]: incosTarija,
 }
 
+export const publishedInstitutes = institutes.filter((institute) => institute.hasDetail)
+
 export function getInstitute(slug?: string) {
   return institutes.find((institute) => institute.slug === slug)
 }
