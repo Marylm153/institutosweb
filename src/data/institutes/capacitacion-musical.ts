@@ -12,6 +12,8 @@ export const capacitacionMusical: InstituteDetail = {
     'Consolidarse como un programa de formación musical reconocido a nivel departamental, ampliando el acceso a la educación musical y fortaleciendo su presencia en diferentes zonas del departamento de Tarija.',
   summary:
     'El Programa de Capacitación Musical de Niños, Niñas y Adolescentes de la Orquesta Sinfónica Departamental de Tarija promueve la prevención social a través de la música y acerca la formación instrumental y la práctica orquestal a distintos barrios de la ciudad, con el propósito de contribuir a la reducción de la delincuencia, el consumo de alcohol y el analfabetismo cultural y musical.',
+  about:
+    'Programa de la Dirección de Educación, Ciencia y Tecnología (G.A.D.T.) que, a través de la Orquesta Sinfónica Departamental, acerca la formación musical a niños, niñas y adolescentes en distintas sedes de la ciudad de Tarija, como herramienta de integración y prevención social.',
   history: [
     '“La música puede convertirse en una oportunidad de formación, integración y crecimiento para niños y jóvenes, sin importar el lugar donde vivan.” Con ese enfoque, el Programa de Capacitación Musical de la Dirección de Educación, Ciencia y Tecnología (Secretaría de Desarrollo Humano del G.A.D.T.) utiliza la música como herramienta de prevención social.',
     'El programa crea núcleos o sedes de formación musical dirigidos a niños, niñas y adolescentes, especialmente en situación de vulnerabilidad, con el fin de brindar una nueva oportunidad de vida, fomentar valores fundamentales y promover su integración social y cultural.',

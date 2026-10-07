@@ -13,6 +13,8 @@ export const uriondo: InstituteDetail = {
     'El Instituto Tecnológico Uriondo es una institución de educación técnica y tecnológica productiva comunitaria que se constituye en un instrumento de integración con el sector productivo de la región, con una pertinencia académica sociocultural, contribuyendo a la innovación productiva e industrial para el desarrollo de nuestra sociedad en armonía con la naturaleza para el vivir bien.',
   summary:
     'El Instituto Tecnológico “Uriondo” es una institución de educación técnica y tecnológica productiva que forma Técnicos Superiores en Viticultura y Enología, articulando la formación con el sector productivo vitivinícola del municipio de Uriondo. Funciona en la comunidad de Calamuchita y fue creado mediante Resolución Ministerial N.º 244/2015.',
+  about:
+    'Institución de educación técnica y tecnológica productiva que forma Técnicos Superiores en Viticultura y Enología, articulada con la cadena vitivinícola del municipio de Uriondo. Funciona en la comunidad de Calamuchita.',
   sedes: [
     {
       name: 'Sede Calamuchita',

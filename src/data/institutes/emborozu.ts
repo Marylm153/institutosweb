@@ -13,6 +13,8 @@ export const emborozu: InstituteDetail = {
     'Consolidarse como una institución de formación técnica y tecnológica de referencia en el municipio de Padcaya y la región, articulada con el sector productivo y turístico.',
   summary:
     'El Instituto Tecnológico Emborozú es una institución de formación técnica y tecnológica orientada a la formación integral de profesionales técnicos superiores, respondiendo a las necesidades productivas, económicas y sociales de la región. Su oferta se desarrolla en la Sede Central de la comunidad de Emborozú y en la Sub Sede de Rosillas, con aproximadamente un 70% de formación práctica y 30% teórica.',
+  about:
+    'Institución fiscal de formación técnica con Sede Central en la comunidad de Emborozú y Sub Sede en Rosillas (Padcaya). Ofrece Industria de Alimentos, Turismo y Agropecuaria, y Veterinaria y Zootecnia, con formación mayoritariamente práctica y servicios de internado y comedor.',
   history: [
     'La Sede Central funciona en la comunidad de Emborozú, municipio de Padcaya, autorizada mediante Resolución Ministerial N.º 657/2015 y N.º 186/2013, y ofrece las carreras de Industria de Alimentos, Turismo y Agropecuaria a nivel Técnico Superior.',
     'La Sub Sede de Rosillas, en el mismo municipio, fue autorizada mediante Resolución Ministerial N.º 192/2019 y N.º 551/2019, y en ella se desarrolla la carrera de Veterinaria y Zootecnia a nivel Técnico Superior.',
