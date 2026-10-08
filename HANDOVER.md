@@ -81,11 +81,11 @@ lucide-react (iconos), `@fontsource-variable/archivo` (fuente). CSS propio, sin 
 
 ## 4. Estado de los institutos
 
-**Publicados (7)** — aparecen en la home y tienen ficha (`hasDetail: true`):
-`2-de-agosto`, `uriondo`, `capacitacion-musical`, `emborozu`, `bermejo`, `san-ignacio`, `incos-tarija`.
+**Publicados (8)** — aparecen en la home y tienen ficha (`hasDetail: true`):
+`2-de-agosto`, `uriondo`, `capacitacion-musical`, `emborozu`, `bermejo`, `san-ignacio`, `incos-tarija`, `san-andres`.
 
-**Ocultos (8)** — existen en `institutes.ts` pero **no** aparecen en la home (`hasDetail: false`), a la espera de información:
-`tarija`, `oconnor`, `yunchara`, `eustaquio-mendez`, `san-andres`, `mario-estenssoro`, `orquesta-juvenil`, `artes-plasticas`.
+**Ocultos (7)** — existen en `institutes.ts` pero **no** aparecen en la home (`hasDetail: false`), a la espera de información:
+`tarija`, `oconnor`, `yunchara`, `eustaquio-mendez`, `mario-estenssoro`, `orquesta-juvenil`, `artes-plasticas`.
 
 > La home muestra solo `publishedInstitutes` (`institutes.filter(i => i.hasDetail)`), también en el mapa.
 > Nota: `emborozu-inte-p` se **fusionó** dentro de `emborozu` (Veterinaria y Zootecnia como Sub Sede) y ya no existe.
@@ -231,7 +231,7 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 
 ## 13. Pendientes / ideas para seguir
 
-- Integrar los **8 institutos ocultos** a medida que envíen información (basta con `hasDetail: true` + su ficha).
+- Integrar los **7 institutos ocultos** a medida que envíen información (basta con `hasDetail: true` + su ficha).
 - Comprimir el **catálogo PDF de Emborozú** (~17 MB) si se quiere aligerar el repositorio.
 - Posibles mejoras de diseño: tipografía con más carácter, `prefers-reduced-motion` ya incluido, afinar contraste.
 - No hay tests ni lint: si se agregan, documentar los comandos en `AGENTS.md`.
@@ -244,6 +244,6 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 - Corrección de apilamiento del mapa y header auto-oculto en móvil.
 - Migración de fotos a **WebP** y script `scripts/to-webp.py`.
 - Integración de institutos: 2 de Agosto, Uriondo, Capacitación Musical, Emborozú, Bermejo,
-  San Ignacio de Loyola (ITSIL) e INCOS Tarija.
+  San Ignacio de Loyola (ITSIL), INCOS Tarija y Agropecuario San Andrés (ITASA).
 - Se ocultaron los institutos sin ficha y se quitó la sección de descargas con datos sensibles del INCOS
   (se conservó solo el formulario oficial de inscripción).
