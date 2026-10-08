@@ -20,6 +20,8 @@ const CAREER_LABELS: Record<string, string> = {
   contaduria: 'Contaduría General',
   sistemas: 'Sistemas Informáticos',
   secretariado: 'Secretariado Ejecutivo',
+  gastronomia: 'Gastronomía',
+  'recursos-hidricos': 'Gestión de Recursos Hídricos y Riego',
   general: 'Vida institucional',
 }
 
