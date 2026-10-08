@@ -18,7 +18,7 @@ export type Sede = {
 
 export type OfertaItem = { title: string; items: string[] }
 
-export type VitrinaItem = { name: string; presentation?: string; description?: string }
+export type VitrinaItem = { name: string; presentation?: string; description?: string; image?: string }
 export type VitrinaGroup = { title: string; note?: string; items: VitrinaItem[] }
 export type Authority = { name: string; role: string }
 export type DocumentLink = { label: string; file: string }

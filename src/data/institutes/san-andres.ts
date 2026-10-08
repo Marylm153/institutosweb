@@ -1,4 +1,7 @@
 import type { InstituteDetail } from '../types'
+import huevosGallina from '../../../Assets/images/institutos/san-andres/general/huevosdegallina.webp'
+import huevosCodorniz from '../../../Assets/images/institutos/san-andres/general/huevos-codorniz.webp'
+import lecheVaca from '../../../Assets/images/institutos/san-andres/general/lechedevaca.webp'
 
 export const sanAndres: InstituteDetail = {
   slug: 'san-andres',
@@ -178,9 +181,17 @@ export const sanAndres: InstituteDetail = {
   ],
   vitrina: [
     {
-      title: 'Producción agropecuaria y agrícola',
+      title: 'Producción pecuaria',
       items: [
+        { name: 'Huevos de gallina', image: huevosGallina },
+        { name: 'Huevos de codorniz', image: huevosCodorniz },
+        { name: 'Leche de vaca', image: lecheVaca },
         { name: 'Reproductores e insumos pecuarios' },
+      ],
+    },
+    {
+      title: 'Producción agrícola',
+      items: [
         { name: 'Maíz' },
         { name: 'Hortalizas orgánicas' },
       ],

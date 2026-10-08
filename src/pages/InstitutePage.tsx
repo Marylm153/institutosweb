@@ -212,9 +212,12 @@ export default function InstitutePage() {
                     <ul className="vitrina-group__items">
                       {group.items.map((item) => (
                         <li key={item.name}>
-                          <strong>{item.name}</strong>
-                          {item.presentation && <span className="vitrina-group__pres">{item.presentation}</span>}
-                          {item.description && <span className="vitrina-group__desc">{item.description}</span>}
+                          {item.image && <img className="vitrina-group__img" src={item.image} alt={item.name} loading="lazy" />}
+                          <div className="vitrina-group__body">
+                            <strong>{item.name}</strong>
+                            {item.presentation && <span className="vitrina-group__pres">{item.presentation}</span>}
+                            {item.description && <span className="vitrina-group__desc">{item.description}</span>}
+                          </div>
                         </li>
                       ))}
                     </ul>
