@@ -53,6 +53,7 @@ src/
     SiteHeader.tsx    # header con logo oficial; auto-oculta al bajar en móvil
     SiteFooter.tsx    # footer oscuro
     MobileNav.tsx     # barra inferior fija en móvil
+    Monogram.tsx      # iniciales del instituto con acento por tipo (rojo/ocre)
   hooks/useScrollTo.ts
   pages/
     Home.tsx          # portada (hero, catálogo, mapa, guía, CTA, vitrina)
@@ -158,8 +159,12 @@ lucide-react (iconos), `@fontsource-variable/archivo` (fuente). CSS propio, sin 
 ## 7. Cómo funciona la home (`src/pages/Home.tsx`)
 
 - **Hero**: elige al azar una foto entre las galerías de los institutos (`heroSlides()`), muestra la
-  etiqueta "Ahora" con el instituto + carrera (enlace a su ficha), titular, buscador (`<form role="search">`)
-  y un control para cambiar de foto.
+  etiqueta "Ahora" con el instituto + carrera (enlace a su ficha), titular, buscador y un control para
+  cambiar de foto.
+- **Buscador con sugerencias**: el buscador del hero es un combobox accesible (`role="combobox"`,
+  `aria-expanded/controls/activedescendant`) que lista en vivo hasta 6 coincidencias de `searchIndex()`
+  (`src/data/index.ts`). Al elegir: un **instituto** navega a `/instituto/<slug>`; una **carrera** aplica
+  el filtro y baja a `#institutos`. Teclado: ↑/↓, Enter, Escape; se cierra al hacer clic fuera.
 - **Catálogo**: solo `publishedInstitutes`; filtros Todos/Técnicos/Artísticos; buscador por nombre,
   ubicación, provincia, enfoque y carreras; cada tarjeta enlaza a `/instituto/<slug>`.
 - **Mapa**: Leaflet + OpenStreetMap con marcadores SVG (`markerIcon`, rojo=técnico / ocre=artístico) desde
@@ -185,7 +190,11 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
   instala otro `@fontsource-variable/<fuente>`, cambia el import y `font-family` en `:root`.
 - **Layout**: mobile-first; media queries en `720px`, `960px`, `1100px` dentro de `styles.css`.
 - **Componentes**: se estilan por clase en `styles.css` (no CSS modules). Clases clave:
-  `site-header`, `mobile-nav`, `hero`, `institute*`, `vitrina*`, `sede*`, `career*`, `gallery*`, `detail*`, `convenios`, `downloads`.
+  `site-header`, `mobile-nav`, `hero`, `search__results`, `institute*`, `monogram*`, `vitrina*`, `sede*`, `career*`, `gallery*`, `detail*`, `convenios`, `downloads`.
+- **Identidad por instituto**: `Monogram` (`.monogram--tec` rojo / `.monogram--art` ocre) da una pieza
+  visual uniforme a todos: se usa como reemplazo de carátula en la tarjeta del home y como *crest* en el
+  hero de la ficha cuando el instituto no tiene `logo`. Así todas las fichas comparten plantilla aunque
+  falten datos.
 - **Iconos**: `lucide-react`.
 - **Logo**: `Assets/images/logo-lockup.png` es el lockup **blanco** recortado; va sobre superficies
   rojas/oscuras (chip del header y footer). No lo pongas sobre fondo claro (los logos son blancos).
@@ -240,6 +249,8 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 
 ## 14. Historial reciente (commits clave)
 
+- Buscador con recomendaciones en vivo (combobox accesible) en el hero; fix del color del texto del input.
+- Monograma/crest compartido (`Monogram`) para dar identidad visual uniforme a todos los institutos.
 - Rediseño minimalista mobile-first (hero full-bleed, paleta rojo/ocre, fuente Archivo, barra inferior móvil).
 - Corrección de apilamiento del mapa y header auto-oculto en móvil.
 - Migración de fotos a **WebP** y script `scripts/to-webp.py`.

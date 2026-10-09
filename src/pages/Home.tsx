@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   ArrowRight,
   ArrowUpRight,
@@ -8,11 +8,13 @@ import {
   MapPin,
   MessageCircle,
   RefreshCw,
+  School,
   Search,
 } from 'lucide-react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import portada from '../../Assets/images/portada.webp'
+import Monogram from '../components/Monogram'
 import {
   featuredProducts,
   galleryFor,
@@ -21,7 +23,9 @@ import {
   heroSlides,
   institutes,
   publishedInstitutes,
+  searchIndex,
   type Institute,
+  type SearchEntry,
 } from '../data'
 import { useScrollTo } from '../hooks/useScrollTo'
 
@@ -33,6 +37,19 @@ export default function Home() {
   const [query, setQuery] = useState('')
   const [activeType, setActiveType] = useState('Todos')
   const scrollTo = useScrollTo()
+  const navigate = useNavigate()
+
+  const searchEntries = useMemo(() => searchIndex(), [])
+
+  const pickEntry = (entry: SearchEntry) => {
+    if (entry.kind === 'instituto') {
+      navigate(`/instituto/${entry.slug}`)
+      return
+    }
+    setQuery(entry.career ?? entry.label)
+    setActiveType('Todos')
+    scrollTo('institutos')
+  }
 
   const filteredInstitutes = useMemo(() => {
     const normalizedQuery = query.toLocaleLowerCase('es')
@@ -57,7 +74,13 @@ export default function Home() {
 
   return (
     <main id="main-content" tabIndex={-1}>
-      <Hero onSearch={() => scrollTo('institutos')} query={query} setQuery={setQuery} />
+      <Hero
+        onSearch={() => scrollTo('institutos')}
+        query={query}
+        setQuery={setQuery}
+        entries={searchEntries}
+        onPick={pickEntry}
+      />
 
       <section className="section">
         <div className="wrap intro">
@@ -214,11 +237,88 @@ export default function Home() {
   )
 }
 
-function Hero({ query, setQuery, onSearch }: { query: string; setQuery: (value: string) => void; onSearch: () => void }) {
+function Highlight({ text, query }: { text: string; query: string }) {
+  const term = query.trim()
+  if (!term) return <>{text}</>
+  const index = text.toLocaleLowerCase('es').indexOf(term.toLocaleLowerCase('es'))
+  if (index < 0) return <>{text}</>
+  return (
+    <>
+      {text.slice(0, index)}
+      <mark>{text.slice(index, index + term.length)}</mark>
+      {text.slice(index + term.length)}
+    </>
+  )
+}
+
+function Hero({
+  query,
+  setQuery,
+  onSearch,
+  entries,
+  onPick,
+}: {
+  query: string
+  setQuery: (value: string) => void
+  onSearch: () => void
+  entries: SearchEntry[]
+  onPick: (entry: SearchEntry) => void
+}) {
   const slides = useMemo(() => heroSlides(), [])
   const [index, setIndex] = useState(() => (slides.length ? Math.floor(Math.random() * slides.length) : 0))
   const slide = slides[index]
   const next = () => setIndex((current) => (slides.length ? (current + 1) % slides.length : 0))
+
+  const listId = useId()
+  const boxRef = useRef<HTMLFormElement>(null)
+  const [open, setOpen] = useState(false)
+  const [highlight, setHighlight] = useState(-1)
+
+  const normalized = query.trim().toLocaleLowerCase('es')
+  const matches = useMemo(() => {
+    if (!normalized) return []
+    return entries
+      .filter((entry) => `${entry.label} ${entry.sublabel}`.toLocaleLowerCase('es').includes(normalized))
+      .slice(0, 6)
+  }, [entries, normalized])
+  const visible = open && matches.length > 0
+
+  useEffect(() => {
+    if (!visible) return
+    const onPointerDown = (event: PointerEvent) => {
+      if (!boxRef.current?.contains(event.target as Node)) setOpen(false)
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => document.removeEventListener('pointerdown', onPointerDown)
+  }, [visible])
+
+  const choose = (entry: SearchEntry) => {
+    onPick(entry)
+    setOpen(false)
+    setHighlight(-1)
+  }
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault()
+      if (!matches.length) return
+      setOpen(true)
+      setHighlight((current) => (current + 1) % matches.length)
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault()
+      if (!matches.length) return
+      setOpen(true)
+      setHighlight((current) => (current <= 0 ? matches.length - 1 : current - 1))
+    } else if (event.key === 'Enter') {
+      if (visible && highlight >= 0 && matches[highlight]) {
+        event.preventDefault()
+        choose(matches[highlight])
+      }
+    } else if (event.key === 'Escape') {
+      setOpen(false)
+      setHighlight(-1)
+    }
+  }
 
   return (
     <section className="hero" id="inicio" style={{ backgroundImage: `url(${slide?.image ?? portada})` }}>
@@ -233,18 +333,57 @@ function Hero({ query, setQuery, onSearch }: { query: string; setQuery: (value: 
         )}
         <h1 className="hero__title">Estudia en los institutos <em>que construyen Tarija.</em></h1>
         <p className="hero__lede">Técnicos, tecnológicos y artísticos. Encuentra tu carrera y conoce cada instituto.</p>
-        <form className="search" role="search" onSubmit={(event) => { event.preventDefault(); onSearch() }}>
+        <form
+          ref={boxRef}
+          className="search"
+          role="search"
+          onSubmit={(event) => { event.preventDefault(); setOpen(false); onSearch() }}
+        >
           <Search className="search__icon" size={20} aria-hidden="true" />
           <input
             className="search__input"
             type="search"
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => { setQuery(event.target.value); setOpen(true); setHighlight(-1) }}
+            onFocus={() => { if (query.trim()) setOpen(true) }}
+            onKeyDown={onKeyDown}
             placeholder="¿Qué quieres estudiar?"
             aria-label="Buscar carreras e institutos"
             enterKeyHint="search"
+            role="combobox"
+            aria-expanded={visible}
+            aria-controls={listId}
+            aria-autocomplete="list"
+            aria-activedescendant={visible && highlight >= 0 ? `${listId}-opt-${highlight}` : undefined}
+            autoComplete="off"
           />
           <button className="search__btn" type="submit">Buscar <ArrowRight size={17} /></button>
+          {visible && (
+            <ul className="search__results" id={listId} role="listbox" aria-label="Sugerencias de búsqueda">
+              {matches.map((entry, i) => (
+                <li
+                  key={entry.id}
+                  id={`${listId}-opt-${i}`}
+                  role="option"
+                  aria-selected={i === highlight}
+                  className={`search__option${i === highlight ? ' is-active' : ''}`}
+                  onMouseEnter={() => setHighlight(i)}
+                  onMouseDown={(event) => { event.preventDefault(); choose(entry) }}
+                >
+                  <span className="search__option-icon" aria-hidden="true">
+                    {entry.kind === 'instituto' ? <School size={16} /> : <GraduationCap size={16} />}
+                  </span>
+                  <span className="search__option-body">
+                    <span className="search__option-label"><Highlight text={entry.label} query={query} /></span>
+                    <span className="search__option-sub">{entry.sublabel}</span>
+                  </span>
+                  <span className={`search__option-kind tag ${entry.type === 'Artístico' ? 'tag--art' : 'tag--tec'}`}>
+                    {entry.kind === 'instituto' ? entry.type : 'Carrera'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </form>
         <div className="hero__meta">
           <span>Departamento de Tarija · Bolivia</span>
@@ -268,7 +407,7 @@ function InstituteRow({ institute }: { institute: Institute }) {
   const body = (
     <>
       <div className={`institute__media${cover ? '' : ' institute__media--initials'}`}>
-        {cover ? <img src={cover} alt="" loading="lazy" /> : <span aria-hidden="true">{institute.initials}</span>}
+        {cover ? <img src={cover} alt="" loading="lazy" /> : <Monogram initials={institute.initials} type={institute.type} />}
       </div>
       <div className="institute__body">
         <span className={`tag ${institute.type === 'Artístico' ? 'tag--art' : 'tag--tec'}`}>{institute.type}</span>

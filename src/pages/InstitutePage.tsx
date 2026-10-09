@@ -19,6 +19,7 @@ import {
   Users,
 } from 'lucide-react'
 import portada from '../../Assets/images/portada.webp'
+import Monogram from '../components/Monogram'
 import { galleryFor, getInstitute, getInstituteDetail } from '../data'
 import type { Carrera } from '../data'
 
@@ -62,6 +63,7 @@ export default function InstitutePage() {
               <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
               <span className="kicker">{institute.type}</span>
             </div>
+            <Monogram initials={institute.initials} type={institute.type} className="detail__monogram" />
             <h1 className="detail__title">{institute.name}</h1>
             <p className="detail__place"><MapPin size={16} /> {institute.location} · {institute.province}</p>
             <p className="detail__lede">{institute.description}</p>
@@ -94,8 +96,10 @@ export default function InstitutePage() {
             <Link className="back" to="/"><ArrowLeft size={16} /> Volver al inicio</Link>
             <span className="kicker">{detail.type} · {detail.province}</span>
           </div>
-          {detail.logo && (
+          {detail.logo ? (
             <span className="detail__crest"><img src={detail.logo} alt={`Escudo de ${detail.officialName}`} /></span>
+          ) : (
+            <Monogram initials={institute.initials} type={detail.type} className="detail__monogram" />
           )}
           <h1 className="detail__title">{detail.officialName}</h1>
           <p className="detail__place"><MapPin size={16} /> {detail.municipality} · {detail.province}</p>
