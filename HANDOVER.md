@@ -192,10 +192,9 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 - **Layout**: mobile-first; media queries en `720px`, `960px`, `1100px` dentro de `styles.css`.
 - **Componentes**: se estilan por clase en `styles.css` (no CSS modules). Clases clave:
   `site-header`, `mobile-nav`, `hero`, `search__results`, `institute*`, `monogram*`, `vitrina*`, `sede*`, `career*`, `gallery*`, `detail*`, `convenios`, `downloads`.
-- **Identidad por instituto**: `Monogram` (`.monogram--tec` rojo / `.monogram--art` ocre) da una pieza
-  visual uniforme a todos: se usa como reemplazo de carátula en la tarjeta del home y como *crest* en el
-  hero de la ficha cuando el instituto no tiene `logo`. Así todas las fichas comparten plantilla aunque
-  falten datos.
+- **Identidad por instituto**: `Monogram` (`.monogram--tec` rojo / `.monogram--art` ocre) unifica la
+  carátula de respaldo en las tarjetas del home cuando el instituto no tiene foto. En la ficha, el
+  *crest* del hero solo aparece si el instituto define `logo`; no se genera un monograma de reemplazo.
 - **Visor de imágenes**: `LightboxProvider` (montado en `App.tsx`) expone `useLightbox().open(images, index)`.
   Para imágenes ampliables se usa el componente `ZoomImage`, que renderiza un `<img>` con `cursor: zoom-in`
   y accesibilidad de teclado. Aplica en la vitrina del home y en galería de carreras, galería general y
@@ -259,7 +258,7 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 ## 14. Historial reciente (commits clave)
 
 - Visor de imágenes (lightbox) reutilizable: ampliar fotos de la vitrina del home y de las galerías de cada ficha.
-- Se ocultan 6 fotos concretas de la home mediante `HIDDEN_HOME` (carrusel y carátulas), sin borrar archivos.
+- Se ocultan fotos concretas de la home mediante `HIDDEN_HOME` (carrusel y carátulas), sin borrar archivos.
 - Buscador con recomendaciones en vivo (combobox accesible) en el hero; fix del color del texto del input.
 - Monograma/crest compartido (`Monogram`) para dar identidad visual uniforme a todos los institutos.
 - Rediseño minimalista mobile-first (hero full-bleed, paleta rojo/ocre, fuente Archivo, barra inferior móvil).

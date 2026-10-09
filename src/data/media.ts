@@ -42,8 +42,6 @@ export const gallery: GalleryImage[] = Object.entries(files)
 
 const HIDDEN_HOME = new Set<string>([
   'bermejo/general/00-portada.webp',
-  'bermejo/general/general-02.webp',
-  'emborozu/agropecuaria/agro-02.webp',
   'san-ignacio/general/general-02.webp',
   'san-ignacio/industria-alimentos/industria-01.webp',
   'san-ignacio/industria-alimentos/industria-02.webp',

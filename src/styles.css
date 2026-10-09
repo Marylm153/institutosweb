@@ -374,7 +374,6 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .curriculum__image { width: 100%; border-radius: var(--r-md); border: 1px solid var(--line); }
 .detail__crest { display: inline-flex; align-items: center; background: #fff; border-radius: 12px; padding: 7px 12px; margin-bottom: 14px; }
 .detail__crest img { height: 30px; width: auto; display: block; }
-.detail__monogram { width: 46px; height: 46px; border-radius: 13px; font-size: 16px; margin-bottom: 14px; }
 .note-inline { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 14px 16px; color: var(--ink-2); font-size: 13.5px; }
 .career__degree { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 13px; margin-top: 20px; }
 .career__gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 18px; border-radius: var(--r-md); overflow: hidden; }
