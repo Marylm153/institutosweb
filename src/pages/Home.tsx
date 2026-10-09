@@ -21,6 +21,7 @@ import {
   getInstitute,
   getInstituteDetail,
   heroSlides,
+  homeCoverFor,
   institutes,
   publishedInstitutes,
   searchIndex,
@@ -403,7 +404,7 @@ function Hero({
 }
 
 function InstituteRow({ institute }: { institute: Institute }) {
-  const cover = galleryFor(institute.slug)[0]?.src
+  const cover = homeCoverFor(institute.slug)?.src
   const body = (
     <>
       <div className={`institute__media${cover ? '' : ' institute__media--initials'}`}>

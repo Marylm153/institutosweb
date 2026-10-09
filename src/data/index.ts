@@ -78,5 +78,5 @@ export const featuredProducts = [
 ]
 
 export { institutes }
-export { gallery, galleryFor, galleryCareers, heroSlides } from './media'
+export { gallery, galleryFor, galleryCareers, heroSlides, homeCoverFor } from './media'
 export * from './types'

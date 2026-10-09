@@ -204,6 +204,9 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 ## 10. Fotos e imágenes (importante)
 
 - Se cargan con `import.meta.glob('../../Assets/images/institutos/**/*.{jpg,jpeg,png,webp}')` en `src/data/media.ts`.
+- Fotos que **no** deben verse en la home: se listan en el `Set` `HIDDEN_HOME` de `src/data/media.ts`
+  (por `slug/carrera/archivo`). Se excluyen del carrusel del hero (`heroSlides`) y de las carátulas del
+  catálogo (`homeCoverFor`), pero **siguen disponibles** en las galerías de la ficha. No se borran archivos.
 - Formato de publicación: **WebP** (reduce mucho el peso). Convierte con `python scripts/to-webp.py`.
 - Nombra las imágenes para controlar el orden (la portada de cada instituto es la primera al ordenar).
 - La portada general del hero por defecto es `Assets/images/portada.webp`.
@@ -249,6 +252,7 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 
 ## 14. Historial reciente (commits clave)
 
+- Se ocultan 6 fotos concretas de la home mediante `HIDDEN_HOME` (carrusel y carátulas), sin borrar archivos.
 - Buscador con recomendaciones en vivo (combobox accesible) en el hero; fix del color del texto del input.
 - Monograma/crest compartido (`Monogram`) para dar identidad visual uniforme a todos los institutos.
 - Rediseño minimalista mobile-first (hero full-bleed, paleta rojo/ocre, fuente Archivo, barra inferior móvil).

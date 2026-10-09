@@ -108,6 +108,7 @@ export type GalleryImage = {
   src: string
   slug: string
   career: string
+  file: string
   alt: string
 }
 

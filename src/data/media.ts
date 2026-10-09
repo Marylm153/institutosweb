@@ -36,12 +36,29 @@ export const gallery: GalleryImage[] = Object.entries(files)
     const slug = parts[index + 1] ?? 'general'
     const career = parts[index + 2] ?? 'general'
     const fileName = parts[parts.length - 1] ?? ''
-    return { src, slug, career, alt: `${labelFor(career)} – ${fileName.replace(/\.(jpe?g|png)$/i, '')}` }
+    return { src, slug, career, file: fileName, alt: `${labelFor(career)} – ${fileName.replace(/\.(jpe?g|png)$/i, '')}` }
   })
   .sort((a, b) => a.src.localeCompare(b.src))
 
+const HIDDEN_HOME = new Set<string>([
+  'bermejo/general/00-portada.webp',
+  'bermejo/general/general-02.webp',
+  'emborozu/agropecuaria/agro-02.webp',
+  'san-ignacio/general/general-02.webp',
+  'san-ignacio/industria-alimentos/industria-01.webp',
+  'san-ignacio/industria-alimentos/industria-02.webp',
+])
+
+function hiddenOnHome(image: GalleryImage) {
+  return HIDDEN_HOME.has(`${image.slug}/${image.career}/${image.file}`)
+}
+
 export function galleryFor(slug: string, career?: string) {
   return gallery.filter((image) => image.slug === slug && (!career || image.career === career))
+}
+
+export function homeCoverFor(slug: string) {
+  return gallery.find((image) => image.slug === slug && !hiddenOnHome(image)) ?? gallery.find((image) => image.slug === slug)
 }
 
 export function galleryCareers(slug: string) {
@@ -56,6 +73,7 @@ export function heroSlides(): HeroSlide[] {
   const slides: HeroSlide[] = []
   const counts = new Map<string, number>()
   gallery.forEach((image) => {
+    if (hiddenOnHome(image)) return
     const key = `${image.slug}:${image.career}`
     const count = counts.get(key) ?? 0
     if (count >= 2) return
