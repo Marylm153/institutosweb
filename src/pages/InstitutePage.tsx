@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import portada from '../../Assets/images/portada.webp'
 import Monogram from '../components/Monogram'
+import { ZoomImage, type LightboxImage } from '../components/Lightbox'
 import { galleryFor, getInstitute, getInstituteDetail } from '../data'
 import type { Carrera } from '../data'
 
@@ -214,16 +215,23 @@ export default function InstitutePage() {
                   </div>
                   {group.items.length > 0 && (
                     <ul className="vitrina-group__items">
-                      {group.items.map((item) => (
-                        <li key={item.name}>
-                          {item.image && <img className="vitrina-group__img" src={item.image} alt={item.name} loading="lazy" />}
-                          <div className="vitrina-group__body">
-                            <strong>{item.name}</strong>
-                            {item.presentation && <span className="vitrina-group__pres">{item.presentation}</span>}
-                            {item.description && <span className="vitrina-group__desc">{item.description}</span>}
-                          </div>
-                        </li>
-                      ))}
+                      {group.items.map((item) => {
+                        const groupImages: LightboxImage[] = group.items.flatMap((entry) =>
+                          entry.image ? [{ src: entry.image, alt: entry.name }] : [])
+                        const imageIndex = item.image ? groupImages.findIndex((entry) => entry.src === item.image) : -1
+                        return (
+                          <li key={item.name}>
+                            {item.image && (imageIndex >= 0
+                              ? <ZoomImage className="vitrina-group__img" src={item.image} alt={item.name} images={groupImages} index={imageIndex} />
+                              : <img className="vitrina-group__img" src={item.image} alt={item.name} loading="lazy" />)}
+                            <div className="vitrina-group__body">
+                              <strong>{item.name}</strong>
+                              {item.presentation && <span className="vitrina-group__pres">{item.presentation}</span>}
+                              {item.description && <span className="vitrina-group__desc">{item.description}</span>}
+                            </div>
+                          </li>
+                        )
+                      })}
                     </ul>
                   )}
                 </div>
@@ -426,6 +434,7 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
   const carrera = carreras[active]
   const images = galleryFor(slug, carrera.mediaKey).slice(0, 3)
+  const lightboxImages: LightboxImage[] = images.map((image) => ({ src: image.src, alt: image.alt }))
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
     const last = carreras.length - 1
@@ -526,7 +535,9 @@ function CareerSection({ slug, carreras }: { slug: string; carreras: Carrera[] }
 
         {images.length > 0 && (
           <div className="career__gallery">
-            {images.map((image) => <img key={image.src} src={image.src} alt={image.alt} loading="lazy" />)}
+            {images.map((image, index) => (
+              <ZoomImage key={image.src} src={image.src} alt={image.alt} images={lightboxImages} index={index} />
+            ))}
           </div>
         )}
       </div>
@@ -538,6 +549,7 @@ function Gallery({ slug, carreras }: { slug: string; carreras: Carrera[] }) {
   const [filter, setFilter] = useState('todas')
   const images = filter === 'todas' ? galleryFor(slug) : galleryFor(slug, filter)
   const filterCareers = carreras.filter((carrera) => galleryFor(slug, carrera.mediaKey).length > 0)
+  const lightboxImages: LightboxImage[] = images.map((image) => ({ src: image.src, alt: image.alt }))
 
   return (
     <section className="divider">
@@ -555,7 +567,9 @@ function Gallery({ slug, carreras }: { slug: string; carreras: Carrera[] }) {
           </div>
         )}
         <div className="gallery__grid">
-          {images.map((image) => <img key={image.src} src={image.src} alt={image.alt} loading="lazy" />)}
+          {images.map((image, index) => (
+            <ZoomImage key={image.src} src={image.src} alt={image.alt} images={lightboxImages} index={index} />
+          ))}
         </div>
       </div>
     </section>

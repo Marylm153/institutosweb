@@ -15,6 +15,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import portada from '../../Assets/images/portada.webp'
 import Monogram from '../components/Monogram'
+import { ZoomImage, type LightboxImage } from '../components/Lightbox'
 import {
   featuredProducts,
   galleryFor,
@@ -72,6 +73,12 @@ export default function Home() {
   const feature = featuredProducts[featureIndex >= 0 ? featureIndex : 0]
   const featureImage = productImages[feature.title] ?? portada
   const otherProducts = featuredProducts.filter((product) => product !== feature)
+
+  const productGallery: LightboxImage[] = featuredProducts.flatMap((product) => {
+    const src = productImages[product.title]
+    return src ? [{ src, alt: `${product.title} — ${product.institute}` }] : []
+  })
+  const featureZoomIndex = productGallery.findIndex((entry) => entry.src === featureImage)
 
   return (
     <main id="main-content" tabIndex={-1}>
@@ -202,7 +209,9 @@ export default function Home() {
           </div>
           <div className="vitrina">
             <article className="vitrina__feature">
-              <img src={featureImage} alt={`${feature.title} — ${feature.institute}`} loading="lazy" />
+              {featureZoomIndex >= 0
+                ? <ZoomImage src={featureImage} alt={`${feature.title} — ${feature.institute}`} images={productGallery} index={featureZoomIndex} />
+                : <img src={featureImage} alt={`${feature.title} — ${feature.institute}`} loading="lazy" />}
               <div className="vitrina__feature-info">
                 <span className="tag tag--tec">{feature.tag}</span>
                 <h3>{feature.title}</h3>
@@ -216,9 +225,12 @@ export default function Home() {
               {otherProducts.map((product) => {
                 const target = getInstitute(product.slug)
                 const image = productImages[product.title]
+                const zoomIndex = productGallery.findIndex((entry) => entry.src === image)
                 return (
                   <li className="vitrina__item" key={product.title}>
-                    {image && <img src={image} alt={`${product.title} — ${product.institute}`} loading="lazy" />}
+                    {image && (zoomIndex >= 0
+                      ? <ZoomImage src={image} alt={`${product.title} — ${product.institute}`} images={productGallery} index={zoomIndex} />
+                      : <img src={image} alt={`${product.title} — ${product.institute}`} loading="lazy" />)}
                     <div>
                       <span className="tag tag--tec">{product.tag}</span>
                       <h3>{product.title}</h3>
