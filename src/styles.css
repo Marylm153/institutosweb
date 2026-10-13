@@ -29,8 +29,7 @@
   --maxw: 1200px;
   --gutter: 20px;
   --ease: cubic-bezier(.22, .61, .36, 1);
-  --header-h: 80px;
-  --strip-h: 10px;
+  --header-h: 72px;
   --font-display: 'Montserrat Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   color-scheme: light;
@@ -150,16 +149,9 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .monogram--tec { color: var(--red); background: var(--red-soft); }
 .monogram--art { color: var(--ochre); background: var(--ochre-soft); }
 
-/* ---------- Government strip (franja modular) ---------- */
-.gov-strip { display: flex; height: var(--strip-h); background: var(--red); }
-.gov-strip__module { flex: 1 1 0; display: grid; place-items: center; background: var(--red); }
-.gov-strip__module + .gov-strip__module { box-shadow: inset 2px 0 0 rgba(255, 255, 255, .9); }
-.gov-strip__module svg { height: 72%; width: auto; color: #fff; }
-.site-footer .gov-strip { height: 12px; }
-
 /* ---------- Header ---------- */
 .site-header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid var(--line); transition: transform .25s var(--ease); }
-.site-header__inner { height: calc(var(--header-h) - var(--strip-h)); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.site-header__inner { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 @media (max-width: 959px) {
   .site-header--hidden { transform: translateY(-100%); }
   html.header-hidden .subnav { top: 0; }
@@ -269,9 +261,9 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .filters::-webkit-scrollbar { display: none; }
 .count { color: var(--ink-3); font-size: 13px; }
 
-.institutes { display: grid; gap: 16px; }
+.institutes { display: grid; gap: 16px; grid-auto-rows: 1fr; align-items: stretch; }
 .institute {
-  display: flex; flex-direction: column;
+  display: flex; flex-direction: column; height: 100%;
   background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg);
   overflow: hidden; text-decoration: none; color: inherit;
   transition: border-color .18s var(--ease), box-shadow .18s var(--ease), transform .18s var(--ease);
@@ -280,12 +272,16 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .institute__media { position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--surface-2); display: grid; place-items: center; }
 .institute__media img { width: 100%; height: 100%; object-fit: cover; }
 .institute__media--initials .monogram { width: 100%; height: 100%; font-size: 46px; }
-.institute__body { padding: 18px; display: flex; flex-direction: column; min-width: 0; }
-.institute__name { font-size: 16.5px; font-weight: 700; letter-spacing: -.02em; margin: 9px 0 5px; }
+.institute__body { padding: 18px; display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.institute__name {
+  font-size: 16.5px; font-weight: 700; letter-spacing: -.02em; margin: 9px 0 5px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  min-height: 2.16em;
+}
 .institute__place { display: flex; align-items: center; gap: 5px; color: var(--ink-3); font-size: 12.5px; }
 .institute__progs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; list-style: none; }
 .institute__progs span { background: var(--surface-2); border-radius: var(--r-xs); padding: 4px 9px; font-size: 11.5px; color: var(--ink-2); }
-.institute__cta { display: inline-flex; align-items: center; gap: 5px; color: var(--red); font-size: 13px; font-weight: 700; margin-top: 16px; }
+.institute__cta { display: inline-flex; align-items: center; gap: 5px; color: var(--red); font-size: 13px; font-weight: 700; margin-top: auto; padding-top: 16px; }
 .institute--pending { background: var(--surface-2); border-style: dashed; }
 .institute--pending:hover { border-color: var(--line); box-shadow: none; transform: none; }
 .institute--pending .institute__media { opacity: .75; }
@@ -360,7 +356,6 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .footer__col a, .footer__col button { color: var(--ink); font-size: 14px; text-decoration: none; text-align: left; padding: 0; }
 .footer__col a:hover, .footer__col button:hover { color: var(--red); }
 .footer__bottom { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-block: 18px; color: var(--ink-3); font-size: 12px; }
-.footer__strip { margin-top: 6px; }
 
 /* ============================================================
    Institute detail

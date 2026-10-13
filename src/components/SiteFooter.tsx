@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import logoGob from '../../Assets/images/logo-lockup.png'
 import logoSdh from '../../Assets/images/logo-sdh.png'
-import GovStrip from './GovStrip'
 import { useScrollTo } from '../hooks/useScrollTo'
 
 export default function SiteFooter() {
@@ -43,7 +42,6 @@ export default function SiteFooter() {
           <span>Proyecto de código abierto</span>
         </div>
       </div>
-      <GovStrip className="footer__strip" />
     </footer>
   )
 }
