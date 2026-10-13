@@ -83,11 +83,11 @@ lucide-react (iconos), `@fontsource-variable/archivo` (fuente). CSS propio, sin 
 
 ## 4. Estado de los institutos
 
-**Publicados (8)** — aparecen en la home y tienen ficha (`hasDetail: true`):
-`2-de-agosto`, `uriondo`, `capacitacion-musical`, `emborozu`, `bermejo`, `san-ignacio`, `incos-tarija`, `san-andres`.
+**Publicados (9)** — aparecen en la home y tienen ficha (`hasDetail: true`):
+`2-de-agosto`, `uriondo`, `capacitacion-musical`, `emborozu`, `bermejo`, `san-ignacio`, `incos-tarija`, `san-andres`, `eustaquio-mendez`.
 
-**Ocultos (7)** — existen en `institutes.ts` pero **no** aparecen en la home (`hasDetail: false`), a la espera de información:
-`tarija`, `oconnor`, `yunchara`, `eustaquio-mendez`, `mario-estenssoro`, `orquesta-juvenil`, `artes-plasticas`.
+**Ocultos (6)** — existen en `institutes.ts` pero **no** aparecen en la home (`hasDetail: false`), a la espera de información:
+`tarija`, `oconnor`, `yunchara`, `mario-estenssoro`, `orquesta-juvenil`, `artes-plasticas`.
 
 > La home muestra solo `publishedInstitutes` (`institutes.filter(i => i.hasDetail)`), también en el mapa.
 > Nota: `emborozu-inte-p` se **fusionó** dentro de `emborozu` (Veterinaria y Zootecnia como Sub Sede) y ya no existe.
@@ -265,6 +265,8 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 - Corrección de apilamiento del mapa y header auto-oculto en móvil.
 - Migración de fotos a **WebP** y script `scripts/to-webp.py`.
 - Integración de institutos: 2 de Agosto, Uriondo, Capacitación Musical, Emborozú, Bermejo,
-  San Ignacio de Loyola (ITSIL), INCOS Tarija y Agropecuario San Andrés (ITASA).
+  San Ignacio de Loyola (ITSIL), INCOS Tarija, Agropecuario San Andrés (ITASA) y Tecnológico
+  Eustaquio Méndez (ITEM, 5 carreras: Agropecuaria, Gastronomía, Industria de Alimentos,
+  Mecánica Automotriz y Turismo).
 - Se ocultaron los institutos sin ficha y se quitó la sección de descargas con datos sensibles del INCOS
   (se conservó solo el formulario oficial de inscripción).

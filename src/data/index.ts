@@ -7,6 +7,7 @@ import { bermejo } from './institutes/bermejo'
 import { sanIgnacio } from './institutes/san-ignacio'
 import { incosTarija } from './institutes/incos-tarija'
 import { sanAndres } from './institutes/san-andres'
+import { eustaquioMendez } from './institutes/eustaquio-mendez'
 import type { InstituteDetail, InstituteType } from './types'
 
 const details: Record<string, InstituteDetail> = {
@@ -18,6 +19,7 @@ const details: Record<string, InstituteDetail> = {
   [sanIgnacio.slug]: sanIgnacio,
   [incosTarija.slug]: incosTarija,
   [sanAndres.slug]: sanAndres,
+  [eustaquioMendez.slug]: eustaquioMendez,
 }
 
 export const publishedInstitutes = institutes.filter((institute) => institute.hasDetail)
