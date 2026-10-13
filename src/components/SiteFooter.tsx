@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
-import logo from '../../Assets/images/logo-lockup.png'
+import logoGob from '../../Assets/images/logo-lockup.png'
+import logoSdh from '../../Assets/images/logo-sdh.png'
+import GovStrip from './GovStrip'
 import { useScrollTo } from '../hooks/useScrollTo'
 
 export default function SiteFooter() {
@@ -15,7 +17,10 @@ export default function SiteFooter() {
       <div className="wrap">
         <div className="footer__grid">
           <div className="footer__brand">
-            <img src={logo} alt="Gobierno Autónomo Departamental de Tarija" />
+            <div className="footer__logos">
+              <span className="footer__gov"><img src={logoGob} alt="Gobierno Autónomo Departamental de Tarija" /></span>
+              <img className="footer__sdh" src={logoSdh} alt="Secretaría de Desarrollo Humano" />
+            </div>
             <p>Plataforma informativa de los institutos de formación del departamento de Tarija.</p>
           </div>
           <div className="footer__cols">
@@ -34,10 +39,11 @@ export default function SiteFooter() {
           </div>
         </div>
         <div className="footer__bottom">
-          <span>© 2026 Gobierno Autónomo Departamental de Tarija</span>
+          <span>© 2026 Gobierno Autónomo Departamental de Tarija · Secretaría de Desarrollo Humano</span>
           <span>Proyecto de código abierto</span>
         </div>
       </div>
+      <GovStrip className="footer__strip" />
     </footer>
   )
 }

@@ -46,7 +46,7 @@ Regla crítica: `vite.config.ts` **debe mantener `base: './'`**. Un valor como `
 
 ```
 src/
-  main.tsx            # monta <HashRouter>, importa la fuente Archivo y styles.css
+  main.tsx            # monta <HashRouter>, importa Montserrat+Inter y styles.css
   App.tsx             # rutas: "/" Home, "/instituto/:slug" InstitutePage, "*" NotFound
                       #   + skip-link, foco en cambio de ruta, MobileNav (se oculta en la ficha)
   components/
@@ -185,11 +185,16 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 ## 9. Cómo cambiar el diseño / elementos visuales
 
 - **Colores y tokens**: todo en `:root` de `src/styles.css`
-  (`--red #9f1720`, `--ochre #8a5a2b`, `--ink`, `--ink-2`, `--ink-3`, `--line`, `--surface`, `--surface-2`,
-  `--r-sm/md/lg/full`, sombras). Cambia ahí para repintar el sitio.
-- **Tipografía**: se carga en `src/main.tsx` con `import '@fontsource-variable/archivo'`. Para cambiarla,
-  instala otro `@fontsource-variable/<fuente>`, cambia el import y `font-family` en `:root`.
-- **Layout**: mobile-first; media queries en `720px`, `960px`, `1100px` dentro de `styles.css`.
+  (`--red #d71920`, `--red-hover #b5121b`, `--red-soft #fbe9ea`, `--ochre #8a5a2b`, `--ink #202020`,
+  `--ink-2 #5f5f63`, `--ink-3 #858585`, `--line #e6e6e6`, `--surface-2 #f5f5f5`, `--r-sm/md/lg`).
+  Cambia ahí para repintar el sitio.
+- **Tipografía**: **Montserrat Variable** (titulares, `--font-display`) + **Inter Variable** (texto,
+  `--font-body`), self-host con `@fontsource-variable/montserrat` e `@fontsource-variable/inter` importadas
+  en `src/main.tsx`.
+- **Marca institucional**: cabecera y pie usan el **lockup de co-marca** — Gobernación (`logo-lockup.png`,
+  blanco) sobre placa roja + **SDH** (`logo-sdh.png`, a color) sobre blanco. La **franja modular**
+  (`GovStrip`: 4 módulos rojos con motivos blancos abstractos) va sobre la cabecera y cierra el pie.
+- **Layout**: mobile-first; media queries en `640px`, `720px`, `960px`, `1200px` dentro de `styles.css`.
 - **Componentes**: se estilan por clase en `styles.css` (no CSS modules). Clases clave:
   `site-header`, `mobile-nav`, `hero`, `search__results`, `institute*`, `monogram*`, `vitrina*`, `sede*`, `career*`, `gallery*`, `detail*`, `convenios`, `downloads`.
 - **Identidad por instituto**: `Monogram` (`.monogram--tec` rojo / `.monogram--art` ocre) unifica la
@@ -201,8 +206,8 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
   vitrina de cada ficha. El visor (`role="dialog"`) navega con flechas, `Esc`, botones prev/next y *swipe*
   en móvil; bloquea el scroll y devuelve el foco al cerrar. Clases: `.zoomable`, `.lightbox*`.
 - **Iconos**: `lucide-react`.
-- **Logo**: `Assets/images/logo-lockup.png` es el lockup **blanco** recortado; va sobre superficies
-  rojas/oscuras (chip del header y footer). No lo pongas sobre fondo claro (los logos son blancos).
+- **Logo**: los de **Gobernación** (`logo-lockup.png`) son **blancos**; van solo sobre rojo/oscuro (placa roja).
+  El de **SDH** (`logo-sdh.png`) es **a color** y va sobre blanco. No pongas un logo blanco sobre fondo claro.
 
 ---
 
@@ -257,6 +262,8 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 
 ## 14. Historial reciente (commits clave)
 
+- Rediseño de identidad institucional (SDH + Gobernación): Montserrat+Inter, paleta `#D71920`, franja
+  modular `GovStrip`, co-marca de logos, hero editorial y tarjetas nuevas.
 - Visor de imágenes (lightbox) reutilizable: ampliar fotos de la vitrina del home y de las galerías de cada ficha.
 - Se ocultan fotos concretas de la home mediante `HIDDEN_HOME` (carrusel y carátulas), sin borrar archivos.
 - Buscador con recomendaciones en vivo (combobox accesible) en el hero; fix del color del texto del input.

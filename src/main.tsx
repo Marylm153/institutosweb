@@ -2,7 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
 import App from './App'
-import '@fontsource-variable/archivo'
+import '@fontsource-variable/montserrat'
+import '@fontsource-variable/inter'
 import './styles.css'
 
 createRoot(document.getElementById('root')!).render(

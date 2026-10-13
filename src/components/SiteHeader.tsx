@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
-import logo from '../../Assets/images/logo-lockup.png'
+import logoGob from '../../Assets/images/logo-lockup.png'
+import logoSdh from '../../Assets/images/logo-sdh.png'
+import GovStrip from './GovStrip'
 import { useScrollTo } from '../hooks/useScrollTo'
 
 const links = [
@@ -59,9 +61,11 @@ export default function SiteHeader() {
 
   return (
     <header className={`site-header${hidden ? ' site-header--hidden' : ''}`}>
+      <GovStrip />
       <div className="wrap site-header__inner">
-        <Link className="brand" to="/" aria-label="Ir al inicio">
-          <img className="brand__logo" src={logo} alt="Gobierno Autónomo Departamental de Tarija" />
+        <Link className="brand-group" to="/">
+          <span className="brand"><img className="brand__logo" src={logoGob} alt="Gobierno Autónomo Departamental de Tarija" /></span>
+          <img className="brand-sdh" src={logoSdh} alt="Secretaría de Desarrollo Humano" />
         </Link>
         <nav className="nav" aria-label="Navegación principal">
           {links.map((link) => (

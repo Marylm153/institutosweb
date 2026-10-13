@@ -102,7 +102,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section divider" id="institutos">
+      <section className="section section--alt" id="institutos">
         <div className="wrap">
           <div className="catalog__head">
             <h2>Elige dónde <em>comenzar.</em></h2>
@@ -160,7 +160,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section divider" id="postulante">
+      <section className="section section--alt" id="postulante">
         <div className="wrap">
           <div className="section-head">
             <h2>Cómo <em>postular.</em></h2>
@@ -334,19 +334,14 @@ function Hero({
   }
 
   return (
-    <section className="hero" id="inicio" style={{ backgroundImage: `url(${slide?.image ?? portada})` }}>
-      <div className="hero__scrim" />
-      <div className="wrap hero__inner">
-        {slide && (
-          <Link className="hero__tag" to={`/instituto/${slide.slug}`}>
-            <span className="hero__tag-label">Ahora</span>
-            <strong>{slide.name}</strong>
-            <em>{slide.program}</em>
-          </Link>
-        )}
-        <h1 className="hero__title">Estudia en los institutos <em>que construyen Tarija.</em></h1>
-        <p className="hero__lede">Técnicos, tecnológicos y artísticos. Encuentra tu carrera y conoce cada instituto.</p>
-        <form
+    <section className="hero" id="inicio">
+      <div className="wrap hero__grid">
+        <div className="hero__copy">
+          <p className="hero__org">Gobierno Autónomo Departamental de Tarija<br />Secretaría de Desarrollo Humano</p>
+          <h1 className="hero__title">Formación técnica que construye <span className="hl">Tarija.</span></h1>
+          <span className="hairline" />
+          <p className="hero__lede">Institutos técnicos, tecnológicos y artísticos del departamento. Encuentra tu carrera, conoce cada instituto y da el primer paso.</p>
+          <form
           ref={boxRef}
           className="search"
           role="search"
@@ -398,16 +393,30 @@ function Hero({
             </ul>
           )}
         </form>
-        <div className="hero__meta">
-          <span>Departamento de Tarija · Bolivia</span>
-          {slides.length > 1 && (
-            <button
-              className="hero__shuffle"
-              onClick={next}
-              aria-label={`Mostrar otra institución destacada. Diapositiva ${index + 1} de ${slides.length}`}
-            >
-              <RefreshCw size={13} /> {String(index + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
-            </button>
+          <div className="hero__actions">
+            <button className="btn btn--primary" onClick={onSearch}>Explorar institutos <ArrowRight size={16} /></button>
+          </div>
+          <div className="hero__meta">
+            <span>Departamento de Tarija · Bolivia</span>
+            {slides.length > 1 && (
+              <button
+                className="hero__shuffle"
+                onClick={next}
+                aria-label={`Mostrar otra institución destacada. Diapositiva ${index + 1} de ${slides.length}`}
+              >
+                <RefreshCw size={13} /> {String(index + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="hero__media">
+          <img src={slide?.image ?? portada} alt={slide ? `${slide.name} — ${slide.program}` : 'Institutos de Tarija'} loading="eager" />
+          {slide && (
+            <Link className="hero__tag" to={`/instituto/${slide.slug}`}>
+              <span className="hero__tag-label">Ahora</span>
+              <strong>{slide.name}</strong>
+              <em>{slide.program}</em>
+            </Link>
           )}
         </div>
       </div>
@@ -505,7 +514,7 @@ function TarijaMap() {
 }
 
 function markerIcon(art: boolean) {
-  const color = art ? '#8a5a2b' : '#9f1720'
+  const color = art ? '#8a5a2b' : '#d71920'
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="34" viewBox="0 0 26 34"><path d="M13 0C5.82 0 0 5.82 0 13c0 9.9 13 21 13 21s13-11.1 13-21C26 5.82 20.18 0 13 0z" fill="${color}"/><circle cx="13" cy="13" r="4.6" fill="#fff"/></svg>`
   return L.divIcon({
     className: 'map-marker',

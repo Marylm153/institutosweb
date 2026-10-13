@@ -31,7 +31,7 @@ Es el portal institucional oficial del Gobierno Autónomo Departamental de Tarij
 - Sitio estático sin backend, sin base de datos, sin cuentas de usuario, sin formularios que persistan datos y sin pagos.
 - Solo se publica información; no se gestionan inscripciones en línea.
 - Debe costar 0 USD y usar exclusivamente software y dependencias open source.
-- Se publica en un hosting estático gratuito (Codeberg Pages), con repositorio público.
+- Se publica en hosting estático gratuito (Render + GitHub Pages), con repositorio público.
 - Idioma único: español (es-BO).
 - Cada instituto debe tener su propio espacio con URL propia; el 2 de Agosto ya cuenta con detalle completo.
 - Alcance confirmado: 15 registros (12 institutos técnicos/tecnológicos y 3 artísticos), con la Capacitación Musical como espacio independiente.
@@ -41,9 +41,9 @@ Es el portal institucional oficial del Gobierno Autónomo Departamental de Tarij
 
 ## Brand Commitments
 
-- Identidad institucional oficial del Gobierno Autónomo Departamental de Tarija.
-- Paleta rojo y blanco, coherente con la Gobernación.
-- Uso de los logotipos oficiales disponibles en `Assets/images/`.
+- Identidad institucional oficial del Gobierno Autónomo Departamental de Tarija y la Secretaría de Desarrollo Humano (SDH), que asume la conducción del portal junto a la Gobernación.
+- Paleta rojo y blanco, coherente con la Gobernación (`#D71920` como acento institucional).
+- Uso de los logotipos oficiales disponibles en `Assets/images/`: Gobernación (blanco, sobre placa roja) y SDH (a color, sobre blanco).
 - Los colores y logotipos deben respetar los lineamientos institucionales cuando existan.
 
 ## Evidence on Hand
@@ -51,7 +51,8 @@ Es el portal institucional oficial del Gobierno Autónomo Departamental de Tarij
 - `Docs/Propuesta.txt`: propuesta técnica y estructura de secciones del portal.
 - `Docs/Institutos.txt`: informe con la oferta académica de la gestión 2026.
 - `Docs/primer instituto/`: informe completo del Instituto 2 de Agosto y 35 fotografías reales de sus carreras.
-- `Assets/images/portada.jpg`, `Assets/images/logo.png`, `Assets/images/logo gobernacion.png`.
+- `Assets/images/portada.jpg`, `Assets/images/logo.png`, `Assets/images/logo gobernacion.png`, `Assets/images/logo-lockup.png`, `Assets/images/logo-sdh.png`.
+- `Docs/Institutos recursos/Diseno/`: directiva visual SDH (paleta `#D71920`, Montserrat+Inter, franja modular de 4 módulos rojos) y afiche de referencia.
 - `Assets/colors/colors.txt`: mapa de colores de referencia.
 - Ausencias que no deben inventarse: requisitos y calendario oficial confirmados, mallas curriculares, datos de los institutos restantes, videos y piezas gráficas.
 

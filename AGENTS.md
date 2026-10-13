@@ -14,7 +14,7 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 ## Architecture
 - `src/main.tsx` mounts `<HashRouter>`; `src/App.tsx` defines routes `/` (Home), `/instituto/:slug` (InstitutePage) and `*` (NotFound). It also renders the skip-link and moves focus to `#main-content` on route change.
 - `src/pages/Home.tsx` (hero + catalog + map + guide + vitrina) and `src/pages/InstitutePage.tsx` (single institute detail). Shared `src/components/SiteHeader.tsx` / `SiteFooter.tsx` / `MobileNav.tsx` (fixed bottom bar on mobile); `src/hooks/useScrollTo.ts`.
-- Design system lives in `src/styles.css` (`:root` tokens). Font is `Archivo Variable`, self-hosted via `@fontsource-variable/archivo` imported in `main.tsx`.
+- Design system lives in `src/styles.css` (`:root` tokens). Fonts are `Montserrat Variable` (headings) and `Inter Variable` (body), self-hosted via `@fontsource-variable/montserrat` and `@fontsource-variable/inter` imported in `main.tsx`.
 - Data lives in `src/data/`:
   - `institutes.ts` — summary list shown on the cover (must include `slug`, `hasDetail`).
   - `institutes/<slug>.ts` — full detail for one institute.
@@ -28,7 +28,7 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 - Routing must stay `HashRouter` (all pages are static, no server rewrites). Do not switch to `BrowserRouter`.
 - Images are imported with relative paths / glob from `src`; the glob base is `../../Assets/...` (from `src/data/`). Assets are hashed into `dist/assets` — do NOT move them to `public/`.
 - `Assets/colors/colors.txt` is a reference SCSS map NOT read by code. Live palette variables (`--red`, `--ochre`, `--ink`, `--line`, etc.) are in `src/styles.css`.
-- The official logos (`Assets/images/logo.png`, `logo gobernacion.png`) are white artwork on transparent. `Assets/images/logo-lockup.png` is the trimmed white lockup used on the red header chip and the dark footer; do not place the white logo on a light surface.
+- The Gobernación logos (`Assets/images/logo.png`, `logo gobernacion.png`, `logo-lockup.png`) are white artwork on transparent; `logo-lockup.png` is the trimmed white lockup used on a red plaque in the header/footer — never place it on a light surface. The SDH logo (`Assets/images/logo-sdh.png`) is full-colour and goes on white. `src/components/GovStrip.tsx` renders the red modular strip (header top + footer close).
 - Leaflet uses public OpenStreetMap tiles; keep the attribution.
 - Environment is Windows + PowerShell; quote paths that contain spaces.
 

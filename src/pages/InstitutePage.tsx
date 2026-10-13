@@ -56,7 +56,7 @@ export default function InstitutePage() {
   if (!detail) {
     return (
       <main id="main-content" tabIndex={-1} className="detail">
-        <section className="detail__hero" style={{ background: 'linear-gradient(140deg,#7e1119,#b32229)' }}>
+        <section className="detail__hero" style={{ background: 'linear-gradient(140deg,#b5121b,#d71920)' }}>
           <div className="detail__scrim" />
           <div className="wrap detail__inner">
             <div className="detail__top">
@@ -165,7 +165,7 @@ export default function InstitutePage() {
       </section>
 
       {detail.oferta && detail.oferta.length > 0 && (
-        <section className="divider" style={{ background: 'var(--surface)' }}>
+        <section className="section--alt">
           <div className="wrap section" id="oferta">
             <div className="section-head">
               <h2>Nuestra <em>oferta.</em></h2>
@@ -184,7 +184,7 @@ export default function InstitutePage() {
       )}
 
       {detail.carreras && detail.carreras.length > 0 && (
-        <section className="divider" style={{ background: 'var(--surface)' }}>
+        <section className="section--alt">
           <div className="wrap section" id="carreras">
             <div className="section-head">
               <h2>Conoce nuestras <em>carreras.</em></h2>
@@ -196,7 +196,7 @@ export default function InstitutePage() {
       )}
 
       {detail.vitrina && detail.vitrina.length > 0 && (
-        <section className="divider" style={{ background: 'var(--surface)' }}>
+        <section className="section--alt">
           <div className="wrap section" id="vitrina">
             <div className="section-head">
               <h2>Vitrina <em>productiva.</em></h2>
@@ -284,7 +284,7 @@ export default function InstitutePage() {
       <Gallery slug={detail.slug} carreras={detail.carreras ?? []} />
 
       {detail.products && detail.products.length > 0 && (
-        <section className="divider" style={{ background: 'var(--surface)' }}>
+        <section className="section--alt">
           <div className="wrap section">
             <div className="section-head">
               <h2>Lo que produce <em>nuestro instituto.</em></h2>
