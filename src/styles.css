@@ -201,7 +201,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(32, 32, 32, .1) 0%, rgba(32, 32, 32, .55) 100%); }
 .hero__tag {
-  position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 2;
+  position: absolute; left: 16px; right: 16px; top: 16px; z-index: 2;
   display: inline-flex; align-items: center; gap: 9px; flex-wrap: wrap;
   background: rgba(255, 255, 255, .96); color: var(--ink);
   border-radius: var(--r-md); padding: 10px 14px;
@@ -269,7 +269,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   transition: border-color .18s var(--ease), box-shadow .18s var(--ease), transform .18s var(--ease);
 }
 .institute:hover { border-color: var(--line-strong); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
-.institute__media { position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--surface-2); display: grid; place-items: center; }
+.institute__media { position: relative; width: 100%; height: 200px; flex: 0 0 auto; background: var(--surface-2); display: grid; place-items: center; }
 .institute__media img { width: 100%; height: 100%; object-fit: cover; }
 .institute__media--initials .monogram { width: 100%; height: 100%; font-size: 46px; }
 .institute__body { padding: 18px; display: flex; flex-direction: column; flex: 1; min-width: 0; }
