@@ -217,6 +217,9 @@ Secciones condicionales (aparecen solo si hay datos) + subnavegación sticky con
 - Fotos que **no** deben verse en la home: se listan en el `Set` `HIDDEN_HOME` de `src/data/media.ts`
   (por `slug/carrera/archivo`). Se excluyen del carrusel del hero (`heroSlides`) y de las carátulas del
   catálogo (`homeCoverFor`), pero **siguen disponibles** en las galerías de la ficha. No se borran archivos.
+- Portadas de las tarjetas del home: `Assets/images/portadas/<slug>.webp` (800×500, 16:10), generadas con
+  `python scripts/make-covers.py` (recorte centrado desde la portada del instituto). `media.ts` las globa y
+  `homeCoverFor(slug)` las usa; si falta una portada, cae a la primera foto de la galería.
 - Formato de publicación: **WebP** (reduce mucho el peso). Convierte con `python scripts/to-webp.py`.
 - Nombra las imágenes para controlar el orden (la portada de cada instituto es la primera al ordenar).
 - La portada general del hero por defecto es `Assets/images/portada.webp`.

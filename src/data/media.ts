@@ -6,6 +6,17 @@ const files = import.meta.glob('../../Assets/images/institutos/**/*.{jpg,jpeg,pn
   import: 'default',
 }) as Record<string, string>
 
+const coverFiles = import.meta.glob('../../Assets/images/portadas/*.webp', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>
+
+const covers: Record<string, string> = {}
+for (const [path, src] of Object.entries(coverFiles)) {
+  const slug = (path.split('/').pop() ?? '').replace(/\.webp$/i, '')
+  if (slug) covers[slug] = src
+}
+
 const CAREER_LABELS: Record<string, string> = {
   agropecuaria: 'Agropecuaria',
   'industria-alimentos': 'Industria de Alimentos',
@@ -56,6 +67,7 @@ export function galleryFor(slug: string, career?: string) {
 }
 
 export function homeCoverFor(slug: string) {
+  if (covers[slug]) return { src: covers[slug] }
   return gallery.find((image) => image.slug === slug && !hiddenOnHome(image)) ?? gallery.find((image) => image.slug === slug)
 }
 

@@ -10,6 +10,7 @@ No backend, no CMS. All content is hardcoded data compiled into the bundle. UI c
 - `npm run build` — runs `tsc -b && vite build`. This is the ONLY verification; there are no test or lint scripts. Run it after every change.
 - `npm run preview` — serve the production build locally.
 - `python scripts/to-webp.py` — converts institute photos to WebP (needs `pip install pillow`). Run it after adding new photos; `Assets/images/institutos/**` is globbed as `{jpg,jpeg,png,webp}`.
+- `python scripts/make-covers.py` — generates the uniform home-card covers (800×500, 16:10) into `Assets/images/portadas/<slug>.webp` from each institute's portada. Run it after adding an institute or changing its cover; `src/data/media.ts` globs `Assets/images/portadas/*.webp`.
 
 ## Architecture
 - `src/main.tsx` mounts `<HashRouter>`; `src/App.tsx` defines routes `/` (Home), `/instituto/:slug` (InstitutePage) and `*` (NotFound). It also renders the skip-link and moves focus to `#main-content` on route change.
